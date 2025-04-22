@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\RegisterRequest;
 use App\Repositories\All\User\UserInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -35,9 +37,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+
+        $user = $this->userInterface->create($data);
+
+        return response()->json([
+            'message' => 'User created successfully',
+            'user' => $user
+        ], 201);
     }
 
     /**
