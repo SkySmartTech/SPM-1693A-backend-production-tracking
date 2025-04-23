@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('userType')->nullable();
             $table->enum('availability', ['Yes', 'No'])->default('Yes')->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active')->nullable();
-            $table->timestamp('created_at')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
