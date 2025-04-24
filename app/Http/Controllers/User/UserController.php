@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\RegisterRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 use App\Repositories\All\User\UserInterface;
 use Illuminate\Http\Request;
@@ -23,7 +23,18 @@ class UserController extends Controller
      */
     public function index()
     {
-       
+        $users = $this->userInterface->all();
+
+        if ($users->isEmpty()) {
+            return response()->json([
+                'message' => 'No users found!',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Users retrieved successfully!',
+            'data' => $users
+        ], 200);
     }
 
     /**
@@ -39,27 +50,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'epf' => 'required|string',
-            'employeeName' => 'required|string',
-            'username' => 'required|string|unique:users',
-            'password' => 'required|string',
-            'department' => 'required|string',
-            'contact' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'userType' => 'required|string',
-            'availability' => 'required|string',
-            'status' => 'required|string',
-        ]);
-        $validated['password'] = Hash::make($validated['password']);
 
-        $user = $this->userInterface->create($validated);
-
-
-        return response()->json([
-            'message' => 'User registered successfully!',
-            'user' => $user,
-        ], 201);
     }
 
     /**
@@ -81,9 +72,34 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        //
+        $user = $this->userInterface->findById($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found.',
+            ], 404);
+        }
+
+        $data = $request->validated();
+
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $updatedUser = $this->userInterface->update($id, $data);
+
+        if (!$updatedUser) {
+            return response()->json([
+                'message' => 'Failed to update user.',
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'User updated successfully!',
+            'data' => $updatedUser,
+        ]);
     }
 
     /**
