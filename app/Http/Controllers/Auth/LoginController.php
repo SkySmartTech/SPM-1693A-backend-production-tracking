@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserLoginRequest;
+use App\Http\Requests\Auth\UserLoginRequest as AuthUserLoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function login(UserLoginRequest $request)
+    public function login(AuthUserLoginRequest $request)
     {
         $credentials = $request->validated();
 
