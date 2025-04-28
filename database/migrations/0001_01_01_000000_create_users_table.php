@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('userType')->nullable();
-            $table->enum('availability', ['Yes', 'No'])->default('Yes')->nullable();
-            $table->enum('status', ['Active', 'Inactive'])->default('Active')->nullable();
+            $table->boolean('availability')->default(true)->nullable();
+            $table->enum('status', ['Draft','Active', 'Inactive'])->default('Active')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
