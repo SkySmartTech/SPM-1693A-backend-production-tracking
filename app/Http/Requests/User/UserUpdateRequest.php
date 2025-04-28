@@ -22,16 +22,16 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'epf' => 'required|string|max:10',
-            'employeeName' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
-            'password' => 'nullable|string|min:8|confirmed',
-            'department' => 'required|string|max:255',
-            'contact' => 'required|string|max:15',
-            'email' => 'required|string|email|max:255|unique:users',
-            'userType' => 'required|string|in:Admin,User',
-            'availability' => 'required|in:Yes,No',
-            'status' => 'required|in:Active,Inactive',
+            'epf'           => 'required|string|max:10',
+            'employeeName'  => 'required|string|max:255',
+            'username'      => 'required|string|max:255|',
+            'password'      => 'nullable|string|min:8|confirmed',
+            'department'    => 'required|string|max:255',
+            'contact'       => 'required|string|max:15',
+            'email'         => 'required|string|email|max:255|unique:users',
+            'userType'      => 'required|string',
+            'availability'  => 'required|boolean',
+            'status'        => 'required|string',
         ];
     }
 }
