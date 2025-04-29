@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('color_settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('color');
-            $table->string('color_code');
+            $table->id()->nullable();
+            $table->string('color')->nullable();
+            $table->string('color_code')->nullable();
             $table->timestamps();
         });
     }
