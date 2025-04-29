@@ -4,7 +4,7 @@ namespace App\Http\Requests\Color;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ColorCreateRequest extends FormRequest
+class ColorUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class ColorCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'color'         => 'required|string|max:255|unique:color_settings,color',
-            'color_code'    => 'required|string|max:7|regex:/^#[0-9A-Fa-f]{6}$/|unique:color_settings,color_code',
+            'color'         => 'sometimes|string|max:255|unique:color_settings,color',
+            'color_code'    => 'sometimes|string|max:7|regex:/^#[0-9A-Fa-f]{6}$/|unique:color_settings,color_code',
         ];
     }
 }

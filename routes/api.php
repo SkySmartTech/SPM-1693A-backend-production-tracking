@@ -11,11 +11,14 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [UserRegisterController::class, 'store']);
 Route::get('/all-users', [UserController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
-
-Route::put('/users/{id}', [UserController::class, 'update']);
+Route::put('/user/{id}/update', [UserController::class, 'update']);
 
 Route::post('/color-create', [ColorSettingController::class, 'store']);
+Route::get('/all-colors', [ColorSettingController::class, 'index']);
+Route::get('/color/{id}', [ColorSettingController::class, 'show']);
+Route::put('/color/{id}/update', [ColorSettingController::class, 'update']);
+Route::get('/color/{id}/delete', [ColorSettingController::class, 'destroy']);
 
 
-Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
+//Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
 
