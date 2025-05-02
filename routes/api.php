@@ -5,6 +5,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\UserRegisterController;
 use App\Http\Controllers\Color\ColorSettingController;
 use App\Http\Controllers\Size\SizeSettingController;
+use App\Http\Controllers\Style\StyleSettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,13 @@ Route::get('/all-sizes', [SizeSettingController::class, 'index']);
 Route::get('/size/{id}', [SizeSettingController::class, 'show']);
 Route::put('/size/{id}/update', [SizeSettingController::class, 'update']);
 Route::get('/size/{id}/delete', [SizeSettingController::class, 'destroy']);
+
+
+Route::post('/style-create', [StyleSettingController::class, 'store']);
+Route::get('/all-styles', [StyleSettingController::class, 'index']);
+Route::get('/style/{id}', [StyleSettingController::class, 'show']);
+Route::put('/style/{id}/update', [StyleSettingController::class, 'update']);
+Route::get('/style/{id}/delete', [StyleSettingController::class, 'destroy']);
 
 //Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
 
