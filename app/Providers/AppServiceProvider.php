@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\All\Color\ColorInterface;
 use App\Repositories\All\Color\ColorRepository;
+use App\Repositories\All\Operation\OperationInterface;
+use App\Repositories\All\Operation\OperationRepository;
 use App\Repositories\All\Size\SizeInterface;
 use App\Repositories\All\Size\SizeRepository;
 use App\Repositories\All\Style\StyleInterface;
@@ -31,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ColorInterface::class, ColorRepository::class);
         $this->app->bind(SizeInterface::class, SizeRepository::class);
         $this->app->bind(StyleInterface::class, StyleRepository::class);
+        $this->app->bind(OperationInterface::class, OperationRepository::class);
+        //$this->app->bind(StyleInterface::class, StyleRepository::class);
 
     }
 }

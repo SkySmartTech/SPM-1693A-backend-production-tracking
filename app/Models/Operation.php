@@ -5,20 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StyleSetting extends Model
+class Operation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'style_no',
-        'style_description',
-        'state',
+        'operation',
+        'sequence_no',
+        'smv',
         'status',
     ];
 
-    public function operations()
+    public function style()
     {
-        return $this->hasMany(Operation::class, 'style_no', 'style_no');
+        return $this->belongsTo(StyleSetting::class, 'style_no', 'style_no');
     }
 
 }
