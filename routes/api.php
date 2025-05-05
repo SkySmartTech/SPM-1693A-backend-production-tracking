@@ -11,6 +11,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+Route::post('user-register', [UserRegisterController::class, 'store']);
+Route::post('login', [LoginController::class, 'login']);
+Route::post('users/{id}/update', [UserController::class, 'update']);
+
+
+
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('all-users', [UserController::class, 'index']);
+
+
+});
 Route::post('/register', [UserRegisterController::class, 'store']);
 Route::get('/all-users', [UserController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);

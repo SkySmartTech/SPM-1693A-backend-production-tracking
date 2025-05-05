@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('userType')->nullable();
-            $table->boolean('availability')->default(true)->nullable();
+            $table->boolean('availability')->nullable();
             $table->enum('status', ['Draft','Active', 'Inactive'])->default('Active')->nullable();
         });
 

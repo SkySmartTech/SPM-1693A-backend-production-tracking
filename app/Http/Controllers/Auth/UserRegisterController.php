@@ -27,7 +27,7 @@ class UserRegisterController extends Controller
         $this->userInterface->create($validated);
 
         return response()->json([
-            'message' => 'User registered successfully!',
+            'message' => 'User registered successfully!','Data'=>$validated
         ], 201);
     }
 }
