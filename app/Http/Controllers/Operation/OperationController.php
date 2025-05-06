@@ -23,17 +23,7 @@ class OperationController extends Controller
     public function index()
     {
         $operations = $this->operationInterface->all();
-
-        if ($operations->isEmpty()) {
-            return response()->json([
-                'message' => 'No operations found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Operations retrieved successfully!',
-            'data' => $operations
-        ], 200);
+        return response()->json($operations, 200);
     }
 
     /**
@@ -64,17 +54,7 @@ class OperationController extends Controller
     public function show(string $id)
     {
         $operation = $this->operationInterface->findById($id);
-
-        if (!$operation) {
-            return response()->json([
-                'message' => 'Operation not found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Operation retrieved successfully!',
-            'data' => $operation
-        ], 200);
+        return response()->json($operation, 200);
     }
 
     /**
@@ -88,7 +68,7 @@ class OperationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(OperationUpdateRequest $request, string $id)
+    public function update(OperationUpdateRequest $request, $id)
     {
         $operation = $this->operationInterface->findById($id);
 
@@ -117,20 +97,9 @@ class OperationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $operation = $this->operationInterface->findById($id);
-
-        if (!$operation) {
-            return response()->json([
-                'message' => 'Operation not found!',
-            ], 404);
-        }
-
         $this->operationInterface->deleteById($id);
-
-        return response()->json([
-            'message' => 'Operation deleted successfully!',
-        ], 200);
+        return response()->json();
     }
 }

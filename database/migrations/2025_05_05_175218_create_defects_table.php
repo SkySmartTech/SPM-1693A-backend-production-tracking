@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('operations', function (Blueprint $table) {
-            $table->id()->nullable();
-            //$table->foreign('style_no')->constrained(table: 'style_settings');
-            $table->integer('operation')->nullable();
-            $table->string('sequence_no')->nullable();
-            $table->decimal('smv', 8, 2)->nullable();
+        Schema::create('defects', function (Blueprint $table) {
+            $table->id();
+            //$table->foreignId('style_no')->constrained(table: 'style_settings');
+            //$table->foreignId('operation')->constrained(table: 'operations');
+            $table->integer('code_no')->nullable();
+            $table->string('defect_code')->nullable();
             $table->enum('status', ['good', 'bad'])->default('good')->nullable();
             $table->timestamps();
-
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operations');
+        Schema::dropIfExists('defects');
     }
 };

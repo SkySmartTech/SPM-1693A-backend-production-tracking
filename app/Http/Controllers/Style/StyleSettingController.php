@@ -23,17 +23,7 @@ class StyleSettingController extends Controller
     public function index()
     {
         $styles = $this->styleInterface->all();
-
-        if ($styles->isEmpty()) {
-            return response()->json([
-                'message' => 'No styles found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Styles retrieved successfully!',
-            'data' => $styles
-        ], 200);
+        return response()->json($styles, 200);
     }
 
     /**
@@ -64,17 +54,7 @@ class StyleSettingController extends Controller
     public function show(string $id)
     {
         $style = $this->styleInterface->findById($id);
-
-        if (!$style) {
-            return response()->json([
-                'message' => 'Style not found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Style retrieved successfully!',
-            'data' => $style
-        ], 200);
+        return response()->json($style, 200);
     }
 
     /**
@@ -117,20 +97,9 @@ class StyleSettingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $style = $this->styleInterface->findById($id);
-
-        if (!$style) {
-            return response()->json([
-                'message' => 'Style not found!',
-            ], 404);
-        }
-
         $this->styleInterface->deleteById($id);
-
-        return response()->json([
-            'message' => 'Style deleted successfully!',
-        ], 200);
+        return response()->json();
     }
 }

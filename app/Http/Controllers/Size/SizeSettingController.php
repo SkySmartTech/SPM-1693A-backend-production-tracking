@@ -22,17 +22,7 @@ class SizeSettingController extends Controller
     public function index()
     {
         $sizes = $this->sizeInterface->all();
-
-        if ($sizes->isEmpty()) {
-            return response()->json([
-                'message' => 'No sizes found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Sizes retrieved successfully!',
-            'data' => $sizes
-        ], 200);
+        return response()->json($sizes, 200);
     }
 
     /**
@@ -63,17 +53,7 @@ class SizeSettingController extends Controller
     public function show($id)
     {
         $size = $this->sizeInterface->findById($id);
-
-        if (!$size) {
-            return response()->json([
-                'message' => 'Size not found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Size retrieved successfully!',
-            'data' => $size
-        ], 200);
+        return response()->json($size, 200);
     }
 
     /**
@@ -118,18 +98,7 @@ class SizeSettingController extends Controller
      */
     public function destroy($id)
     {
-        $size = $this->sizeInterface->findById($id);
-
-        if (!$size) {
-            return response()->json([
-                'message' => 'Size not found!',
-            ], 404);
-        }
-
         $this->sizeInterface->deleteById($id);
-
-        return response()->json([
-            'message' => 'Size deleted successfully!',
-        ], 200);
+        return response()->json();
     }
 }

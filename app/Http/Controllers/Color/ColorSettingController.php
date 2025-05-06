@@ -20,17 +20,7 @@ class ColorSettingController extends Controller
     public function index()
     {
         $colors = $this->colorInterface->all();
-
-        if ($colors->isEmpty()) {
-            return response()->json([
-                'message' => 'No colors found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Colors retrieved successfully!',
-            'data' => $colors
-        ], 200);
+        return response()->json($colors, 200);
     }
 
     public function store(ColorCreateRequest $request){
@@ -72,35 +62,14 @@ class ColorSettingController extends Controller
 
     public function destroy($id)
     {
-        $color = $this->colorInterface->findById($id);
-
-        if (!$color) {
-            return response()->json([
-                'message' => 'Color not found!',
-            ], 404);
-        }
-
         $this->colorInterface->deleteById($id);
-
-        return response()->json([
-            'message' => 'Color deleted successfully!',
-        ], 200);
+        return response()->json();
     }
 
     public function show($id)
     {
         $color = $this->colorInterface->findById($id);
-
-        if (!$color) {
-            return response()->json([
-                'message' => 'Color not found!',
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'Color retrieved successfully!',
-            'data' => $color
-        ], 200);
+        return response()->json($color, 200);
     }
 
 }
