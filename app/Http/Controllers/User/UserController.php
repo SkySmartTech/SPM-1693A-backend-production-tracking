@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserProfileUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Repositories\All\User\UserInterface;
 use Illuminate\Support\Facades\Hash;
@@ -26,8 +27,6 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $user = $this->userInterface->findById($id);
-
-
         $data = $request->validated();
 
         $updatedUser = $this->userInterface->update($id, $data);
@@ -40,6 +39,18 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User updated successfully!',
+            'data' => $updatedUser,
+        ]);
+    }
+
+    public function profile_update(UserProfileUpdateRequest $request, $id)
+    {
+        $data = $request->validated();
+
+        $updatedUser = $this->userInterface->update($id, $data);
+
+        return response()->json([
+            'message' => 'User Profile updated successfully!',
             'data' => $updatedUser,
         ]);
     }
