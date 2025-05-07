@@ -26,16 +26,9 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, $id)
     {
-        $user = $this->userInterface->findById($id);
         $data = $request->validated();
-
+        
         $updatedUser = $this->userInterface->update($id, $data);
-
-        if (!$updatedUser) {
-            return response()->json([
-                'message' => 'Failed to update user.',
-            ], 500);
-        }
 
         return response()->json([
             'message' => 'User updated successfully!',
@@ -46,7 +39,6 @@ class UserController extends Controller
     public function profile_update(UserProfileUpdateRequest $request, $id)
     {
         $data = $request->validated();
-
         $updatedUser = $this->userInterface->update($id, $data);
 
         return response()->json([
@@ -55,11 +47,19 @@ class UserController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $user = $this->userInterface->findById($id);
+        return response()->json($user, 200);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $this->userInterface->deleteById($id);
+        return response()->json();
     }
 }
