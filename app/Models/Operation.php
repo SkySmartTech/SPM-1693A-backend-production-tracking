@@ -19,7 +19,7 @@ class Operation extends Model
 
     public function style()
     {
-        return $this->belongsTo(StyleSetting::class, 'style_no', 'style_no');
+        return $this->belongsTo(StyleSetting::class, 'style_no');
     }
 
 }

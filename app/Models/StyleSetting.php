@@ -18,7 +18,7 @@ class StyleSetting extends Model
 
     public function operations()
     {
-        return $this->hasMany(Operation::class, 'style_no', 'style_no');
+        return $this->hasMany(Operation::class, 'style_no');
     }
 
 }

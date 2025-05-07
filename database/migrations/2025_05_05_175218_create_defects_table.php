@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('defects', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('style_no')->constrained(table: 'style_settings');
-            //$table->foreignId('operation')->constrained(table: 'operations');
+            $table->bigInteger('style_no')->nullable();
+            $table->bigInteger('operation')->nullable();
             $table->integer('code_no')->nullable();
             $table->string('defect_code')->nullable();
             $table->enum('status', ['good', 'bad'])->default('good')->nullable();

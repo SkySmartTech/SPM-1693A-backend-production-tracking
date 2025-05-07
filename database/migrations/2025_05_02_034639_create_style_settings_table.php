@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('style_settings', function (Blueprint $table) {
             $table->id()->nullable();
-            $table->string('style_no')->nullable();
+            $table->integer('style_no')->nullable();
             $table->text('style_description')->nullable();
             $table->integer('state')->nullable();
             $table->integer('status')->nullable();

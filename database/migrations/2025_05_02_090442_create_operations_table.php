@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('operations', function (Blueprint $table) {
-            $table->id()->nullable();
-            //$table->foreign('style_no')->constrained(table: 'style_settings');
+            $table->id();
+            $table->bigInteger('style_no')->nullable();
             $table->integer('operation')->nullable();
             $table->string('sequence_no')->nullable();
             $table->decimal('smv', 8, 2)->nullable();

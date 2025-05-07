@@ -22,7 +22,7 @@ class OperationCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //'style_no'     => 'required|string|exists:style_settings,style_no',
+            'style_no'     => 'required|integer|exists:style_settings,style_no',
             'operation'    => 'required|integer|unique:operations,operation',
             'sequence_no'  => 'required|string',
             'smv'          => 'required|numeric',
