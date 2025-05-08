@@ -14,12 +14,11 @@ Route::post('login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [LogoutController::class, 'logout']);
+    Route::post('user/logout', [LogoutController::class, 'logout']);
     Route::get('all-users', [UserController::class, 'index']);
-    Route::get('user/{id}/profile', [UserController::class, 'index']);
+    Route::get('user/{id}/profile', [UserController::class, 'profile']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profile_update']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
-    Route::get('user/{id}/delete', [UserController::class, 'destroy']);
 
 });
 

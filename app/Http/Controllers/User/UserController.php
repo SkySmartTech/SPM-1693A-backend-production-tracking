@@ -40,6 +40,22 @@ class UserController extends Controller
         ]);
     }
 
+    public function profile($id)
+    {
+        $user = $this->userInterface->findById($id, [
+            'id',
+            'employeeName',
+            'username',
+            'password',
+            'department',
+            'contact',
+            'email'
+        ]);
+
+        $user->makeVisible('password');
+        return response()->json($user, 200);
+    }
+
     public function profile_update(UserProfileUpdateRequest $request, $id)
     {
         $data = $request->validated();
@@ -57,12 +73,4 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        
-    }
 }
