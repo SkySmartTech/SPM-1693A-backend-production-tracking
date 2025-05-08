@@ -27,7 +27,11 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $data = $request->validated();
-        
+
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
         $updatedUser = $this->userInterface->update($id, $data);
 
         return response()->json([
@@ -59,7 +63,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->userInterface->deleteById($id);
-        return response()->json();
+        
     }
 }
