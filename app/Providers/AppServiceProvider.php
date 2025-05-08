@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\CheckUserAvailability;
 use App\Repositories\All\User\UserInterface;
 use App\Repositories\All\User\UserRepository;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,8 +21,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(Router $router): void
     {
+        $router->aliasMiddleware('check.availability', CheckUserAvailability::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
 
     }
