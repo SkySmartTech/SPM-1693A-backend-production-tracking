@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserProfileUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Repositories\All\User\UserInterface;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -27,10 +26,6 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $data = $request->validated();
-
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
 
         $updatedUser = $this->userInterface->update($id, $data);
 
