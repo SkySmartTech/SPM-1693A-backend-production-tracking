@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('style_settings', function (Blueprint $table) {
+        Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->integer('style_no')->nullable();
-            $table->text('style_description')->nullable();
-            $table->integer('state')->nullable();
-            $table->integer('status')->nullable();
+            $table->string('userType')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('style_settings');
+        Schema::dropIfExists('user_roles');
     }
 };

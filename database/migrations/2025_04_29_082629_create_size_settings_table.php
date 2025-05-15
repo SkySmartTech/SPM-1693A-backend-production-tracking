@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('size_settings', function (Blueprint $table) {
-            $table->id()->nullable();
+            $table->id();
             $table->string('size_name')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();

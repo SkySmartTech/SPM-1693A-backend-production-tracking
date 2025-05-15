@@ -24,13 +24,13 @@ class UserUpdateRequest extends FormRequest
         return [
             'epf'           => 'required|string|max:10',
             'employeeName'  => 'required|string|max:255',
-            'username'      => 'required|string|max:255|',
+            'username'      => 'required|string|max:255',
             'department'    => 'required|string|max:255',
             'contact'       => 'required|string|max:15',
-            'email'         => 'required|string|email|max:255|unique:users',
+            'email'         => 'required|string|email|max:255|exists:users,email',
             'userType'      => 'required|string',
             'availability'  => 'required|boolean',
-            'status'        => 'required|string',
+            'status'        => 'nullable|string',
         ];
     }
 }
