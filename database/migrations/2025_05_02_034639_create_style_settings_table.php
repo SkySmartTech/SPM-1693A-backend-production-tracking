@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('style_settings', function (Blueprint $table) {
-            $table->id()->nullable();
+            $table->id();
             $table->integer('style_no')->nullable();
             $table->text('style_description')->nullable();
             $table->integer('state')->nullable();
