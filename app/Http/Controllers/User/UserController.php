@@ -13,8 +13,7 @@ class UserController extends Controller
 {
     protected $userInterface;
 
-    public function __construct(UserInterface $userInterface)
-    {
+    public function __construct(UserInterface $userInterface) {
         $this->userInterface = $userInterface;
     }
 
@@ -29,45 +28,18 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        if (! $user || $user->availability != 1) {
-            return response()->json(['message' => 'User not available'], 403);
-        }
-
-        $permission = $this->comPermissionInterface->getById($user->userType);
-        $userData   = $user->toArray();
-
-        $profileImages = is_array($user->profileImage) ? $user->profileImage : json_decode($user->profileImage, true) ?? [];
-
-        $signedImages = [];
-        foreach ($profileImages as $uri) {
-            $signed         = $this->profileImageService->getImageUrl($uri);
-            $signedImages[] = [
-                'fileName' => $signed['fileName'] ?? null,
-                'imageUrl' => $signed['signedUrl'] ?? null,
-            ];
-        }
-
-        foreach ($profileImages as &$uri) {
-            if (isset($document['gsutil_uri'])) {
-                $imageData            = $this->profileImageService->getImageUrl($document['gsutil_uri']);
-                $document['imageUrl'] = $imageData['signedUrl'];
-                $document['fileName'] = $imageData['fileName'];
-            }
-        }
-
-        $userData['profileImage'] = $signedImages;
-
-        if ($permission) {
-            $userData['permissionObject'] = (array) $permission->permissionObject;
-            $userData['userTypeObject']   = [
-                'id'   => $permission->id,
-                'name' => $permission->userType ?? null,
-            ];
-        }
-
-        $userData['assigneeLevelObject'] = $this->assigneeLevelInterface->getById($user->assigneeLevel);
+        $userData = [
+            'id'           => $user->id,
+            'employeeName' => $user->employeeName,
+            'username'     => $user->username,
+            'password'     => $user->password,
+            'department'   => $user->department,
+            'contact'      => $user->contact,
+            'email'        => $user->email,
+        ];
 
         return response()->json($userData, 200);
+
     }
 
     public function update(UserUpdateRequest $request, $id)
