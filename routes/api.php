@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\UserRegisterController;
 use App\Http\Controllers\Color\ColorSettingController;
+use App\Http\Controllers\DayPlan\DayPlanController;
 use App\Http\Controllers\Defect\DefectController;
 use App\Http\Controllers\Operation\OperationController;
 use App\Http\Controllers\Size\SizeSettingController;
@@ -71,5 +72,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('defect/{id}/show', [DefectController::class, 'show']);
     Route::post('defect/{id}/update', [DefectController::class, 'update']);
     Route::get('defect/{id}/delete', [DefectController::class, 'destroy']);
+
+    Route::post('day-plan-create', [DayPlanController::class, 'store']);
+    Route::get('all-day-plans', [DayPlanController::class, 'index']);
 
 });
