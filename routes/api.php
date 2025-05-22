@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show'])
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('user/logout', [LogoutController::class, 'logout']);
     Route::get('all-users', [UserController::class, 'index']);
-    Route::get('user/{id}/profile', [UserController::class, 'profile']);
+    Route::get('user', [UserController::class, 'show']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profile_update']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
 

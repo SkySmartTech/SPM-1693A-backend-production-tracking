@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserProfileUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Repositories\All\User\UserInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     protected $userInterface;
 
-    public function __construct(UserInterface $userInterface)
-    {
+    public function __construct(UserInterface $userInterface) {
         $this->userInterface = $userInterface;
     }
 
@@ -21,6 +22,24 @@ class UserController extends Controller
     {
         $users = $this->userInterface->all();
         return response()->json($users, 200);
+    }
+
+    public function show(Request $request)
+    {
+        $user = $request->user();
+
+        $userData = [
+            'id'           => $user->id,
+            'employeeName' => $user->employeeName,
+            'username'     => $user->username,
+            'password'     => $user->password,
+            'department'   => $user->department,
+            'contact'      => $user->contact,
+            'email'        => $user->email,
+        ];
+
+        return response()->json($userData, 200);
+
     }
 
     public function update(UserUpdateRequest $request, $id)
@@ -62,11 +81,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function show($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
-        $user = $this->userInterface->findById($id);
-        return response()->json($user, 200);
+        //
     }
-
-
 }
