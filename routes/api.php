@@ -75,8 +75,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('day-plan-create', [DayPlanController::class, 'store']);
     Route::get('all-day-plans', [DayPlanController::class, 'index']);
-    Route::get('day-plan/{id}/show', [DayPlanController::class, 'show']);
-    Route::post('day-plan/{id}/update', [DayPlanController::class, 'update']);
-    Route::get('day-plan/{id}/delete', [DayPlanController::class, 'destroy']);
 
 });

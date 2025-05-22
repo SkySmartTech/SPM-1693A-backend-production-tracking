@@ -3,16 +3,26 @@
 namespace App\Http\Controllers\DayPlan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DayPlan\DayPlanCreateRequest;
+use App\Repositories\All\DayPlan\DayPlanInterface;
 use Illuminate\Http\Request;
 
 class DayPlanController extends Controller
 {
+    protected $dayPlanInterface;
+
+    public function __construct(DayPlanInterface $dayPlanInterface)
+    {
+        $this->dayPlanInterface = $dayPlanInterface;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $dayPlans = $this->dayPlanInterface->all();
+        return response()->json($dayPlans, 200);
     }
 
     /**
@@ -26,9 +36,15 @@ class DayPlanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DayPlanCreateRequest $request)
     {
-        //
+        $validatedDayPlan = $request->validated();
+
+        $this->dayPlanInterface->create($validatedDayPlan);
+
+        return response()->json([
+            'message' => 'Day Plan Created successfully!',
+        ], 201);
     }
 
     /**
