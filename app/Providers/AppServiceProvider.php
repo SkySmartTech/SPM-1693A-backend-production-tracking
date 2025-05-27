@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Http\Middleware\CheckUserAvailability;
+use App\Repositories\All\CheckPoint\CheckPointInterface;
+use App\Repositories\All\CheckPoint\CheckPointRepository;
 use App\Repositories\All\Color\ColorInterface;
 use App\Repositories\All\Color\ColorRepository;
 use App\Repositories\All\DayPlan\DayPlanInterface;
@@ -49,5 +51,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OperationInterface::class, OperationRepository::class);
         $this->app->bind(DefectInterface::class, DefectRepository::class);
         $this->app->bind(DayPlanInterface::class, DayPlanRepository::class);
+        $this->app->bind(CheckPointInterface::class, CheckPointRepository::class);
     }
 }

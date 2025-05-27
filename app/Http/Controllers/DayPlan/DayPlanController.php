@@ -50,9 +50,10 @@ class DayPlanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function all_teams()
     {
-        //
+        $teamNos = $this->dayPlanInterface->all()->pluck('line_no');
+        return response()->json($teamNos, 200);
     }
 
     /**
