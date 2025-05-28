@@ -20,7 +20,6 @@ Route::post('user-register', [UserRegisterController::class, 'store']);
 Route::post('login', [LoginController::class, 'login']);
 
 
-Route::middleware('auth:sanctum')->get('user-a', [UserController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('user-logout', [LogoutController::class, 'logout']);
@@ -28,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('all-users', [UserController::class, 'index']);
     Route::get('user', [UserController::class, 'show']);
+    Route::get('user-profile/{id}', [UserController::class, 'userProfile']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profileUpdate']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
 

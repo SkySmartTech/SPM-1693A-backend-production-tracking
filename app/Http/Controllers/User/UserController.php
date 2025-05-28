@@ -47,23 +47,20 @@ class UserController extends Controller
         ]);
     }
 
-    public function profile($id)
-    {
-        $user = $this->userInterface->findById($id, [
-            'id',
-            'employeeName',
-            'username',
-            'password',
-            'department',
-            'contact',
-            'email',
-        ]);
+ public function userProfile(Request $request)
+{
+    $user = $request->user();
 
-        $user->makeVisible('password');
-        return response()->json($user, 200);
+    if (! $user || $user->availability != 1) {
+        return response()->json(['message' => 'User not available'], 403);
     }
 
-    public function profileUpdate(UserProfileUpdateRequest $request, $id)
+    $userData = $user->makeVisible('password')->toArray();
+
+    return response()->json($userData, 200);
+}
+
+    public function profilepdate(UserProfileUpdateRequest $request, $id)
     {
         $data        = $request->validated();
         $updatedUser = $this->userInterface->update($id, $data);
