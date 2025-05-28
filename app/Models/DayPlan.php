@@ -22,6 +22,7 @@ class DayPlan extends Model
         'per_hour_pcs',
         'available_cader',
         'present_linkers',
+        'check_point',
         'status',
     ];
 }
