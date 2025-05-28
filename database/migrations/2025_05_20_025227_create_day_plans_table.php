@@ -26,6 +26,7 @@ return new class extends Migration
             $table->double('per_hour_pcs', 8, 2)->nullable();
             $table->integer('available_cader')->nullable();
             $table->integer('present_linkers')->nullable();
+            $table->string('check_point')->nullable();
             $table->integer('status')->nullable();
 
             $table->timestamps();
