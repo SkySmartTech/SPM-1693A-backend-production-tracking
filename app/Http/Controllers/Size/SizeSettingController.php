@@ -25,6 +25,13 @@ class SizeSettingController extends Controller
         return response()->json($sizes, 200);
     }
 
+
+    public function all_sizes()
+    {
+        $sizes = $this->sizeInterface->all()->pluck('description');
+        return response()->json($sizes, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\UserRegisterController;
+use App\Http\Controllers\CheckPoint\CheckPointController;
 use App\Http\Controllers\Color\ColorSettingController;
 use App\Http\Controllers\DayPlan\DayPlanController;
 use App\Http\Controllers\Defect\DefectController;
@@ -75,5 +76,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('day-plan-create', [DayPlanController::class, 'store']);
     Route::get('all-day-plans', [DayPlanController::class, 'index']);
+
+    Route::get('team-no', [DayPlanController::class, 'all_teams']);
+    Route::get('style', [StyleSettingController::class, 'all_styles']);
+    Route::get('color', [ColorSettingController::class, 'all_colors']);
+    Route::get('size', [SizeSettingController::class, 'all_sizes']);
+    Route::get('checkpoint', [CheckPointController::class, 'index']);
 
 });
