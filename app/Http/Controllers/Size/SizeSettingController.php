@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Size;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Size\SizeCreateRequest;
-use App\Http\Requests\Size\SizeUpdateRequest;
 use App\Repositories\All\Size\SizeInterface;
-use Illuminate\Http\Request;
 
 class SizeSettingController extends Controller
 {
@@ -16,26 +14,13 @@ class SizeSettingController extends Controller
     {
         $this->sizeInterface = $sizeInterface;
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $sizes = $this->sizeInterface->all();
         return response()->json($sizes, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(SizeCreateRequest $request)
     {
         $validatedSize = $request->validated();
@@ -47,27 +32,7 @@ class SizeSettingController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $size = $this->sizeInterface->findById($id);
-        return response()->json($size, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(SizeUpdateRequest $request, $id)
+    public function update(SizeCreateRequest $request, $id)
     {
         $size = $this->sizeInterface->findById($id);
 
