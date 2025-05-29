@@ -40,10 +40,15 @@ class DayPlanController extends Controller
     {
         $validatedDayPlan = $request->validated();
 
-        $this->dayPlanInterface->create($validatedDayPlan);
+        foreach ($validatedDayPlan['day_plans'] as $plan) {
+            $this->dayPlanInterface->create($plan);
+        }
+
+
+        //$this->dayPlanInterface->create($validatedDayPlan);
 
         return response()->json([
-            'message' => 'Day Plan Created successfully!',
+            'message' => 'Day Plans Created successfully!',
         ], 201);
     }
 

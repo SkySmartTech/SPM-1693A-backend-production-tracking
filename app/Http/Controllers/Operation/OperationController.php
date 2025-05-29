@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Operation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Operation\OperationCreateRequest;
-use App\Http\Requests\Operation\OperationUpdateRequest;
 use App\Repositories\All\Operation\OperationInterface;
-use Illuminate\Http\Request;
 
 class OperationController extends Controller
 {
@@ -17,26 +15,14 @@ class OperationController extends Controller
         $this->operationInterface = $operationInterface;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $operations = $this->operationInterface->all();
         return response()->json($operations, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(OperationCreateRequest $request)
     {
         $validatedOperation = $request->validated();
@@ -48,27 +34,7 @@ class OperationController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $operation = $this->operationInterface->findById($id);
-        return response()->json($operation, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(OperationUpdateRequest $request, $id)
+    public function update(OperationCreateRequest $request, $id)
     {
         $operation = $this->operationInterface->findById($id);
 
@@ -94,9 +60,7 @@ class OperationController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
         $this->operationInterface->deleteById($id);

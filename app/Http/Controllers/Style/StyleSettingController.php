@@ -75,7 +75,7 @@ class StyleSettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StyleUpdateRequest $request, string $id)
+    public function update(StyleCreateRequest $request, string $id)
     {
         $style = $this->styleInterface->findById($id);
 
