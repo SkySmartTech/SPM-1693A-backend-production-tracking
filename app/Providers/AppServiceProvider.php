@@ -13,6 +13,8 @@ use App\Repositories\All\Defect\DefectInterface;
 use App\Repositories\All\Defect\DefectRepository;
 use App\Repositories\All\Operation\OperationInterface;
 use App\Repositories\All\Operation\OperationRepository;
+use App\Repositories\All\ProductionUpdate\ProductionUpdateInterface;
+use App\Repositories\All\ProductionUpdate\ProductionUpdateRepository;
 use App\Repositories\All\Size\SizeInterface;
 use App\Repositories\All\Size\SizeRepository;
 use App\Repositories\All\Style\StyleInterface;
@@ -52,5 +54,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DefectInterface::class, DefectRepository::class);
         $this->app->bind(DayPlanInterface::class, DayPlanRepository::class);
         $this->app->bind(CheckPointInterface::class, CheckPointRepository::class);
+        $this->app->bind(ProductionUpdateInterface::class, ProductionUpdateRepository::class);
     }
 }
