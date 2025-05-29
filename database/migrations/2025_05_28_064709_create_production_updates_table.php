@@ -14,8 +14,19 @@ return new class extends Migration
         Schema::create('production_updates', function (Blueprint $table) {
             $table->id();
             $table->timestamps('server_date_time');
-
             $table->string('line_no')->nullable();
+            $table->string('qr_code')->nullable();
+            $table->string('buyer')->nullable();
+            $table->string('gg')->nullable();
+            $table->double('smv', 8, 2)->nullable();
+            $table->double('present_carder', 8, 2)->nullable();
+            $table->string('style')->nullable();
+            $table->string('color')->nullable();
+            $table->string('size_name')->nullable();
+            $table->string('check_point')->nullable();
+            $table->enum('quality_state', ['Draft','Pass', 'Fail'])->default('Draft')->nullable();
+
+
             $table->timestamps();
         });
     }
