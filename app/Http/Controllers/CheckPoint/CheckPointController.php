@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CheckPoint;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CheckPoint\CheckPointCreateRequest;
 use App\Repositories\All\CheckPoint\CheckPointInterface;
 use Illuminate\Http\Request;
 
@@ -20,24 +21,25 @@ class CheckPointController extends Controller
      */
     public function index()
     {
+        $checkPoints = $this->checkPointInterface->all();
+        return response()->json($checkPoints, 200);
+    }
+
+    public function allCheckPoints()
+    {
         $checkPoints = $this->checkPointInterface->all()->pluck('CheckPointName');
         return response()->json($checkPoints, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(CheckPointCreateRequest $request)
     {
-        //
-    }
+        $validatedcheckPoint = $request->validated();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $this->checkPointInterface->create($validatedcheckPoint);
+
+        return response()->json([
+            'message' => 'Check Point Created successfully!',
+        ], 201);
     }
 
     /**
@@ -49,27 +51,35 @@ class CheckPointController extends Controller
         return response()->json($checkPoint, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(CheckPointCreateRequest $request, $id)
     {
-        //
+        $checkPoint = $this->checkPointInterface->findById($id);
+
+        if (!$checkPoint) {
+            return response()->json([
+                'message' => 'Check Point not found!',
+            ], 404);
+        }
+
+        $validatedCheckPoint = $request->validated();
+
+        $updatedCheckPoint = $this->checkPointInterface->update($id, $validatedCheckPoint);
+
+        if (!$updatedCheckPoint) {
+            return response()->json([
+                'message' => 'Failed to update Check Point.',
+            ], 500);
+        }
+
+        return response()->json([
+            'message' => 'Check Point updated successfully!',
+            'data' => $updatedCheckPoint
+        ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $this->checkPointInterface->deleteById($id);
+        return response()->json();
     }
 }

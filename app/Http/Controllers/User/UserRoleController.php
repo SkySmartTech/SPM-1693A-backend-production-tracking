@@ -24,6 +24,12 @@ class UserRoleController extends Controller
         return response()->json($user_roles, 200);
     }
 
+    public function show($id)
+    {
+        $user_role = $this->userRoleInterface->findById($id);
+        return response()->json($user_role, 200);
+    }
+
     public function store(UserRoleCreateRequest $request)
     {
         $validated = $request->validated();

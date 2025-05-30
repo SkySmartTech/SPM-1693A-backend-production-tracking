@@ -21,6 +21,18 @@ class SizeSettingController extends Controller
         return response()->json($sizes, 200);
     }
 
+    public function show($id)
+    {
+        $size = $this->sizeInterface->findById($id);
+        return response()->json($size, 200);
+    }
+
+    public function allSizes()
+    {
+        $sizes = $this->sizeInterface->all()->pluck('sizes');
+        return response()->json($sizes, 200);
+    }
+
     public function store(SizeCreateRequest $request)
     {
         $validatedSize = $request->validated();
@@ -58,9 +70,6 @@ class SizeSettingController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $this->sizeInterface->deleteById($id);
