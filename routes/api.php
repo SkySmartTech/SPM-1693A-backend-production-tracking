@@ -9,6 +9,7 @@ use App\Http\Controllers\Color\ColorSettingController;
 use App\Http\Controllers\DayPlan\DayPlanController;
 use App\Http\Controllers\Defect\DefectController;
 use App\Http\Controllers\Operation\OperationController;
+use App\Http\Controllers\ProductionUpdate\ProductionUpdateController;
 use App\Http\Controllers\Size\SizeSettingController;
 use App\Http\Controllers\Style\StyleSettingController;
 use App\Http\Controllers\User\UserAccessController;
@@ -84,5 +85,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('color', [ColorSettingController::class, 'all_colors']);
     Route::get('size', [SizeSettingController::class, 'all_sizes']);
     Route::get('checkpoint', [CheckPointController::class, 'index']);
+
+    Route::post('production-update', [ProductionUpdateController::class, 'store']);
+    Route::get('production-success', [ProductionUpdateController::class, 'countSuccess']);
+    Route::get('production-rework', [ProductionUpdateController::class, 'countRework']);
+    Route::get('production-defect', [ProductionUpdateController::class, 'countDefect']);
+    Route::get('hourly-success', [ProductionUpdateController::class, 'countSuccessPerHour']);
 
 });
