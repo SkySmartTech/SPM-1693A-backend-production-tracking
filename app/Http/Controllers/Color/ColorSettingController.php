@@ -22,7 +22,7 @@ class ColorSettingController extends Controller
     }
 
 
-    public function all_colors()
+    public function allColors()
     {
         $color = $this->colorInterface->all()->pluck('color');
         return response()->json($color, 200);

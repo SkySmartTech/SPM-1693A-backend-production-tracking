@@ -17,33 +17,18 @@ class StyleSettingController extends Controller
         $this->styleInterface = $styleInterface;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $styles = $this->styleInterface->all();
         return response()->json($styles, 200);
     }
 
-
-    public function all_styles()
+    public function allStyles()
     {
         $styleNos = $this->styleInterface->all()->pluck('style_no');
         return response()->json($styleNos, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StyleCreateRequest $request)
     {
         $validatedStyle = $request->validated();
@@ -55,26 +40,12 @@ class StyleSettingController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $style = $this->styleInterface->findById($id);
         return response()->json($style, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(StyleCreateRequest $request, string $id)
     {
         $style = $this->styleInterface->findById($id);
@@ -101,9 +72,6 @@ class StyleSettingController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $this->styleInterface->deleteById($id);
