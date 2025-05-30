@@ -17,6 +17,7 @@ use App\Http\Controllers\User\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('user-role', [UserRoleController::class, 'allUserType']);
 Route::post('user-register', [UserRegisterController::class, 'store']);
 Route::post('login', [LoginController::class, 'login']);
 

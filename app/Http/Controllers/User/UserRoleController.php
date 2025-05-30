@@ -30,6 +30,13 @@ class UserRoleController extends Controller
         return response()->json($user_role, 200);
     }
 
+    public function allUserType()
+    {
+        $user_role = $this->userRoleInterface->all()->pluck('userType');
+        return response()->json($user_role, 200);
+    }
+
+
     public function store(UserRoleCreateRequest $request)
     {
         $validated = $request->validated();
