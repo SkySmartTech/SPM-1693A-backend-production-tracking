@@ -68,6 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('operation/{id}/show', [OperationController::class, 'show']);
     Route::post('operation/{id}/update', [OperationController::class, 'update']);
     Route::delete('operation/{id}/delete', [OperationController::class, 'destroy']);
+    Route::get('operation', [OperationController::class, 'allOperations']);
 
     Route::post('defect-create', [DefectController::class, 'store']);
     Route::get('all-defects', [DefectController::class, 'index']);
@@ -80,7 +81,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('check-point/{id}/show', [CheckPointController::class, 'show']);
     Route::post('check-point/{id}/update', [CheckPointController::class, 'update']);
     Route::delete('check-point/{id}/delete', [CheckPointController::class, 'destroy']);
-
 
     Route::post('day-plan-create', [DayPlanController::class, 'store']);
     Route::get('all-day-plans', [DayPlanController::class, 'index']);

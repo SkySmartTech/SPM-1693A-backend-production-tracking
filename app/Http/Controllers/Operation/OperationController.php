@@ -22,6 +22,12 @@ class OperationController extends Controller
         return response()->json($operations, 200);
     }
 
+    public function allOperations()
+    {
+        $operations = $this->operationInterface->all()->pluck('operation');
+        return response()->json($operations, 200);
+    }
+
 
     public function store(OperationCreateRequest $request)
     {
