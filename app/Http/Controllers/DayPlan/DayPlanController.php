@@ -5,7 +5,6 @@ namespace App\Http\Controllers\DayPlan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DayPlan\DayPlanCreateRequest;
 use App\Repositories\All\DayPlan\DayPlanInterface;
-use Illuminate\Http\Request;
 
 class DayPlanController extends Controller
 {
@@ -18,7 +17,7 @@ class DayPlanController extends Controller
 
     public function index()
     {
-        $dayPlans = $this->dayPlanInterface->all();
+        $dayPlans = $this->dayPlanInterface->getLatestUploadedSet();
         return response()->json($dayPlans, 200);
     }
 

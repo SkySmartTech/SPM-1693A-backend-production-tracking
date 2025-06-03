@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Style;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Style\StyleCreateRequest;
-use App\Http\Requests\Style\StyleUpdateRequest;
 use App\Repositories\All\Style\StyleInterface;
-use Illuminate\Http\Request;
 
 class StyleSettingController extends Controller
 {
