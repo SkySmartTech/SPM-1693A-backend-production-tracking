@@ -35,6 +35,7 @@ class DayPlanCreateRequest extends FormRequest
         'day_plans.*.per_hour_pcs'      => 'required|numeric',
         'day_plans.*.available_cader'   => 'required|integer',
         'day_plans.*.present_linkers'   => 'required|integer',
+        'day_plans.*.CheckPointName'    => 'required|string|max:255',
         'day_plans.*.status'            => 'required|integer'
         ];
     }
