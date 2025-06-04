@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\UserRegisterController;
 use App\Http\Controllers\CheckPoint\CheckPointController;
 use App\Http\Controllers\Color\ColorSettingController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DayPlan\DayPlanController;
 use App\Http\Controllers\Defect\DefectController;
 use App\Http\Controllers\Operation\OperationController;
@@ -96,5 +97,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('production-rework', [ProductionUpdateController::class, 'countRework']);
     Route::get('production-defect', [ProductionUpdateController::class, 'countDefect']);
     Route::get('hourly-success', [ProductionUpdateController::class, 'countSuccessPerHour']);
+
+    Route::get('performance-efi', [DashboardController::class, 'countPerformanceEFI']);
+    Route::get('hourly-target', [DashboardController::class, 'countHourlyTarget']);
+    Route::get('upto-now-target-archive', [DashboardController::class, 'countUptoNowTargetArchive']);
+    Route::get('total-check-qty', [DashboardController::class, 'countTotalCheckQty']);
+    Route::get('total-defect-qty', [DashboardController::class, 'countTotalDefectQty']);
+    Route::get('defect-per-unit', [DashboardController::class, 'countDefectPerUnit']);
+    Route::get('line-efi', [DashboardController::class, 'countLineEFI']);
 
 });
