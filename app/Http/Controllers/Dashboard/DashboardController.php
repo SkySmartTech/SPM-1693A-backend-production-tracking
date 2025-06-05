@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function countPerformanceEFI()
-    {
-
-    }
-
     public function countHourlyTarget()
     {
         $shiftStart = Carbon::createFromTime(8, 0, 0);
@@ -101,7 +96,6 @@ class DashboardController extends Controller
     {
         $today = Carbon::today();
 
-        // Step 1: Get main defect/success/rework/total counts
         $results = DB::table('production_updates as pu')
             ->select(
                 'pu.line_no',
@@ -110,13 +104,13 @@ class DashboardController extends Controller
                 DB::raw("SUM(CASE WHEN pu.quality_state = 'rework' THEN 1 ELSE 0 END) as rework"),
                 DB::raw("COUNT(*) as total_check_quantity"),
                 DB::raw("(
-                    SELECT defect_code
+                    SELECT sub.defect_code
                     FROM production_updates as sub
                     WHERE sub.line_no = pu.line_no
-                        AND sub.quality_state = 'defect'
                         AND DATE(sub.server_date_time) = '$today'
+                        AND sub.quality_state IN ('defect', 'rework')
                         AND sub.defect_code IS NOT NULL
-                    GROUP BY defect_code
+                    GROUP BY sub.defect_code
                     ORDER BY COUNT(*) DESC
                     LIMIT 1
                 ) as top_defect_code")
@@ -125,22 +119,60 @@ class DashboardController extends Controller
             ->groupBy('pu.line_no')
             ->get();
 
+        $defectCodes = DB::table('production_updates')
+            ->select('line_no', 'defect_code', DB::raw('COUNT(*) as count'))
+            ->whereDate('server_date_time', $today)
+            ->whereIn('quality_state', ['defect', 'rework'])
+            ->whereNotNull('defect_code')
+            ->groupBy('line_no', 'defect_code')
+            ->get()
+            ->groupBy('line_no');
+
+        foreach ($results as $result) {
+            $lineNo = $result->line_no;
+            $rawCounts = $defectCodes[$lineNo] ?? collect();
+
+            $result->defect_code_counts = $rawCounts->map(function ($item) {
+                return [
+                    'defect_code' => $item->defect_code,
+                    'count' => $item->count
+                ];
+            })->values();
+
+            $totalDefects = $result->defect + $result->rework;
+            $totalCheckQty = $result->total_check_quantity;
+            $result->dhu = $totalCheckQty > 0
+                ? round(($totalDefects * 100) / $totalCheckQty, 2)
+                : 0.00;
+        }
+
         return response()->json($results);
-    }
-
-
-    public function countTotalDefectQty()
-    {
-
-    }
-
-    public function countDefectPerUnit()
-    {
-
     }
 
     public function countLineEFI()
     {
+        $today = Carbon::today();
 
+        $workingHours = 8;
+
+        $results = DB::table('day_plans')
+            ->select(
+                'line_no',
+                'smv',
+                'plan_tgt_pcs',
+                'present_linkers',
+                DB::raw("ROUND(
+                    CASE
+                        WHEN present_linkers > 0 THEN
+                            (smv * plan_tgt_pcs) / (present_linkers * $workingHours * 60)
+                        ELSE 0
+                    END, 2
+                ) as line_efi")
+            )
+            ->whereDate('created_at', $today)
+            ->get();
+
+        return response()->json($results);
     }
+
 }
