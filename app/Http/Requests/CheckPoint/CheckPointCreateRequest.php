@@ -22,7 +22,7 @@ class CheckPointCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'CheckPointName' => 'required|string|max:255|unique:check_points,CheckPointName',
+            'check_point_name' => 'required|string|max:255|unique:check_points,check_point_name',
         ];
     }
 }
