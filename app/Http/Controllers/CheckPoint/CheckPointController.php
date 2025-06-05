@@ -27,7 +27,7 @@ class CheckPointController extends Controller
 
     public function allCheckPoints()
     {
-        $checkPoints = $this->checkPointInterface->all()->pluck('CheckPointName');
+        $checkPoints = $this->checkPointInterface->all()->pluck('check_point_name');
         return response()->json($checkPoints, 200);
     }
 
