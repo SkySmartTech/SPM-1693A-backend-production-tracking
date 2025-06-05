@@ -98,12 +98,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('production-defect', [ProductionUpdateController::class, 'countDefect']);
     Route::get('hourly-success', [ProductionUpdateController::class, 'countSuccessPerHour']);
 
-    Route::get('performance-efi', [DashboardController::class, 'countPerformanceEFI']);
     Route::get('hourly-target', [DashboardController::class, 'countHourlyTarget']);
     Route::get('upto-now-target-archive', [DashboardController::class, 'countUptoNowTargetArchive']);
     Route::get('total-check-qty', [DashboardController::class, 'countTotalCheckQty']);
-    Route::get('total-defect-qty', [DashboardController::class, 'countTotalDefectQty']);
-    Route::get('defect-per-unit', [DashboardController::class, 'countDefectPerUnit']);
     Route::get('line-efi', [DashboardController::class, 'countLineEFI']);
 
 });
