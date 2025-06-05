@@ -101,20 +101,33 @@ class DashboardController extends Controller
     {
         $today = Carbon::today();
 
-        $results = DB::table('production_updates')
+        // Step 1: Get main defect/success/rework/total counts
+        $results = DB::table('production_updates as pu')
             ->select(
-                'line_no',
-                DB::raw("SUM(CASE WHEN quality_state = 'success' THEN 1 ELSE 0 END) as success"),
-                DB::raw("SUM(CASE WHEN quality_state = 'defect' THEN 1 ELSE 0 END) as defect"),
-                DB::raw("SUM(CASE WHEN quality_state = 'rework' THEN 1 ELSE 0 END) as rework"),
-                DB::raw("COUNT(*) as total_check_quantity")
+                'pu.line_no',
+                DB::raw("SUM(CASE WHEN pu.quality_state = 'success' THEN 1 ELSE 0 END) as success"),
+                DB::raw("SUM(CASE WHEN pu.quality_state = 'defect' THEN 1 ELSE 0 END) as defect"),
+                DB::raw("SUM(CASE WHEN pu.quality_state = 'rework' THEN 1 ELSE 0 END) as rework"),
+                DB::raw("COUNT(*) as total_check_quantity"),
+                DB::raw("(
+                    SELECT defect_code
+                    FROM production_updates as sub
+                    WHERE sub.line_no = pu.line_no
+                        AND sub.quality_state = 'defect'
+                        AND DATE(sub.server_date_time) = '$today'
+                        AND sub.defect_code IS NOT NULL
+                    GROUP BY defect_code
+                    ORDER BY COUNT(*) DESC
+                    LIMIT 1
+                ) as top_defect_code")
             )
-            ->whereDate('server_date_time', $today)
-            ->groupBy('line_no')
+            ->whereDate('pu.server_date_time', $today)
+            ->groupBy('pu.line_no')
             ->get();
 
         return response()->json($results);
     }
+
 
     public function countTotalDefectQty()
     {
