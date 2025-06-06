@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\UserRegisterRequest as AuthUserRegisterRequest;
+use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Repositories\All\User\UserInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +19,7 @@ class UserRegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AuthUserRegisterRequest $request)
+    public function store(UserRegisterRequest $request)
     {
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
@@ -27,7 +27,7 @@ class UserRegisterController extends Controller
         $this->userInterface->create($validated);
 
         return response()->json([
-            'message' => 'User registered successfully!',
+            'message' => 'User registered successfully!','Data'=>$validated
         ], 201);
     }
 }

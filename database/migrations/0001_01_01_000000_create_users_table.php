@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id()->nullable();
+            $table->id();
             $table->string('epf')->nullable();
             $table->string('employeeName')->nullable();
             $table->string('username')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('userType')->nullable();
-            $table->boolean('availability')->default(true)->nullable();
+            $table->boolean('availability')->nullable();
             $table->enum('status', ['Draft','Active', 'Inactive'])->default('Active')->nullable();
         });
 
