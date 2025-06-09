@@ -47,19 +47,6 @@ class UserController extends Controller
         ]);
     }
 
- public function userProfile(Request $request)
-{
-    $user = $request->user();
-
-    if (! $user || $user->availability != 1) {
-        return response()->json(['message' => 'User not available'], 403);
-    }
-
-    $userData = $user->makeVisible('password')->toArray();
-
-    return response()->json($userData, 200);
-}
-
     public function profilepdate(UserProfileUpdateRequest $request, $id)
     {
         $data        = $request->validated();
