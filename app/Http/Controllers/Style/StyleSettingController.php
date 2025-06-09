@@ -21,11 +21,6 @@ class StyleSettingController extends Controller
         return response()->json($styles, 200);
     }
 
-    public function allStyles()
-    {
-        $styleNos = $this->styleInterface->all()->pluck('style_no');
-        return response()->json($styleNos, 200);
-    }
 
     public function store(StyleCreateRequest $request)
     {

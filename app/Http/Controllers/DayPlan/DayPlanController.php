@@ -36,7 +36,7 @@ class DayPlanController extends Controller
 
     public function allTeams()
     {
-        $teamNos = $this->dayPlanInterface->all()->pluck('line_no');
+        $teamNos = $this->dayPlanInterface->all()->pluck('lineNo');
         return response()->json($teamNos, 200);
     }
 
