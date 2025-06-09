@@ -20,19 +20,19 @@ class ProductionUpdateController extends Controller
 
     public function countSuccess()
     {
-        $count = ProductionUpdate::where('quality_state', 'Success')->count();
+        $count = ProductionUpdate::where('qualityState', 'Success')->count();
         return response()->json($count);
     }
 
     public function countRework()
     {
-        $count = ProductionUpdate::where('quality_state', 'Rework')->count();
+        $count = ProductionUpdate::where('qualityState', 'Rework')->count();
         return response()->json($count);
     }
 
     public function countDefect()
     {
-        $count = ProductionUpdate::where('quality_state', 'Defect')->count();
+        $count = ProductionUpdate::where('qualityState', 'Defect')->count();
         return response()->json($count);
     }
 
@@ -47,12 +47,12 @@ class ProductionUpdateController extends Controller
         ], 201);
     }
 
-    public function countSuccessPerHour(Request $request)
+    public function countSuccessPerHour()
     {
         $shiftStart = Carbon::parse('08:00:00');
 
-        $records = ProductionUpdate::where('quality_state', 'Success')
-                    ->whereDate('server_date_time', today())
+        $records = ProductionUpdate::where('qualityState', 'Success')
+                    ->whereDate('serverDateTime', today())
                     ->get();
 
         $hourlyCounts = array_fill(1, 8, 0);

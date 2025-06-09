@@ -18,7 +18,7 @@ class SizeCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'size_name'   => 'required|string|max:255',
+            'sizeName'   => 'required|string|max:255',
             'description' => 'required|string',
         ];
     }

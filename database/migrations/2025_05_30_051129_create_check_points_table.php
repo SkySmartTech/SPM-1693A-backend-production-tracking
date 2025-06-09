@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('check_points', function (Blueprint $table) {
             $table->id();
-            $table->string('check_point_name')->unique();
+            $table->string('checkPointName')->unique();
             $table->timestamps();
         });
     }

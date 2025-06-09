@@ -69,7 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('operation/{id}/show', [OperationController::class, 'show']);
     Route::post('operation/{id}/update', [OperationController::class, 'update']);
     Route::delete('operation/{id}/delete', [OperationController::class, 'destroy']);
-    Route::get('operation', [OperationController::class, 'allOperations']);
 
     Route::post('defect-create', [DefectController::class, 'store']);
     Route::get('all-defects', [DefectController::class, 'index']);

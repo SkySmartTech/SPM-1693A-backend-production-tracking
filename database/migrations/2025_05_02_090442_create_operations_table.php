@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('style_no')->nullable();
+            $table->bigInteger('styleNo')->nullable();
             $table->integer('operation')->nullable();
-            $table->string('sequence_no')->nullable();
+            $table->string('sequenceNo')->nullable();
             $table->decimal('smv', 8, 2)->nullable();
             $table->enum('status', ['good', 'bad'])->default('good')->nullable();
             $table->timestamps();

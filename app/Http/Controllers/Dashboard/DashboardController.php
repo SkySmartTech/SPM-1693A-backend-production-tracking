@@ -19,25 +19,25 @@ class DashboardController extends Controller
         $currentHourStart = $shiftStart->copy()->addHours($hoursSinceShiftStart);
         $currentHourEnd = $currentHourStart->copy()->addHour();
 
-        $dayPlans = DB::table('day_plans')->select('line_no', 'per_hour_pcs')->get();
+        $dayPlans = DB::table('day_plans')->select('lineNo', 'perHourPcs')->get();
 
         $successCounts = DB::table('production_updates')
-            ->select('line_no', DB::raw('COUNT(*) as success_count'))
-            ->where('quality_state', 'success')
-            ->whereBetween('server_date_time', [$currentHourStart, $currentHourEnd])
-            ->groupBy('line_no')
+            ->select('lineNo', DB::raw('COUNT(*) as success_count'))
+            ->where('qualityState', 'success')
+            ->whereBetween('serverDateTime', [$currentHourStart, $currentHourEnd])
+            ->groupBy('lineNo')
             ->get();
 
         $results = $dayPlans->map(function ($plan) use ($successCounts) {
-            $matched = $successCounts->firstWhere('line_no', $plan->line_no);
+            $matched = $successCounts->firstWhere('lineNo', $plan->line_no);
             $actualSuccess = $matched ? $matched->success_count : 0;
             $balance = $plan->per_hour_pcs - $actualSuccess;
 
             return [
-                'line_no'         => $plan->line_no,
-                'per_hour_target' => $plan->per_hour_pcs,
-                'actual_success'  => $actualSuccess,
-                'hourly_balance'  => $balance,
+                'lineNo'         => $plan->line_no,
+                'perHourTarget' => $plan->per_hour_pcs,
+                'actualSuccess'  => $actualSuccess,
+                'hourlyBalance'  => $balance,
             ];
         });
 
@@ -65,8 +65,8 @@ class DashboardController extends Controller
             $uptoNowTarget = ($plan->plan_tgt_pcs * $uptoNowMinutes) / $workingMinutes;
 
             $archivedTarget = DB::table('production_updates')
-                ->where('line_no', $plan->line_no)
-                ->where('quality_state', 'success')
+                ->where('lineNo', $plan->line_no)
+                ->where('qualityState', 'success')
                 ->whereBetween('created_at', [$startTime, $now])
                 ->count();
 
@@ -98,35 +98,35 @@ class DashboardController extends Controller
 
         $results = DB::table('production_updates as pu')
             ->select(
-                'pu.line_no',
+                'pu.lineNo',
                 DB::raw("SUM(CASE WHEN pu.quality_state = 'success' THEN 1 ELSE 0 END) as success"),
                 DB::raw("SUM(CASE WHEN pu.quality_state = 'defect' THEN 1 ELSE 0 END) as defect"),
                 DB::raw("SUM(CASE WHEN pu.quality_state = 'rework' THEN 1 ELSE 0 END) as rework"),
                 DB::raw("COUNT(*) as total_check_quantity"),
                 DB::raw("(
-                    SELECT sub.defect_code
+                    SELECT sub.defectCode
                     FROM production_updates as sub
-                    WHERE sub.line_no = pu.line_no
+                    WHERE sub.line_no = pu.lineNo
                         AND DATE(sub.server_date_time) = '$today'
                         AND sub.quality_state IN ('defect', 'rework')
                         AND sub.defect_code IS NOT NULL
-                    GROUP BY sub.defect_code
+                    GROUP BY sub.defectCode
                     ORDER BY COUNT(*) DESC
                     LIMIT 1
                 ) as top_defect_code")
             )
-            ->whereDate('pu.server_date_time', $today)
-            ->groupBy('pu.line_no')
+            ->whereDate('pu.serverDateTime', $today)
+            ->groupBy('pu.lineNo')
             ->get();
 
         $defectCodes = DB::table('production_updates')
-            ->select('line_no', 'defect_code', DB::raw('COUNT(*) as count'))
-            ->whereDate('server_date_time', $today)
-            ->whereIn('quality_state', ['defect', 'rework'])
-            ->whereNotNull('defect_code')
-            ->groupBy('line_no', 'defect_code')
+            ->select('lineNo', 'defectCode', DB::raw('COUNT(*) as count'))
+            ->whereDate('serverDateTime', $today)
+            ->whereIn('qualityState', ['defect', 'rework'])
+            ->whereNotNull('defectCode')
+            ->groupBy('lineNo', 'defectCode')
             ->get()
-            ->groupBy('line_no');
+            ->groupBy('lineNo');
 
         foreach ($results as $result) {
             $lineNo = $result->line_no;
@@ -134,7 +134,7 @@ class DashboardController extends Controller
 
             $result->defect_code_counts = $rawCounts->map(function ($item) {
                 return [
-                    'defect_code' => $item->defect_code,
+                    'defectCode' => $item->defect_code,
                     'count' => $item->count
                 ];
             })->values();
@@ -157,14 +157,14 @@ class DashboardController extends Controller
 
         $results = DB::table('day_plans')
             ->select(
-                'line_no',
+                'lineNo',
                 'smv',
-                'plan_tgt_pcs',
-                'present_linkers',
+                'planTgtPcs',
+                'presentLinkers',
                 DB::raw("ROUND(
                     CASE
                         WHEN present_linkers > 0 THEN
-                            (smv * plan_tgt_pcs) / (present_linkers * $workingHours * 60)
+                            (smv * planTgtPcs) / (presentLinkers * $workingHours * 60)
                         ELSE 0
                     END, 2
                 ) as line_efi")

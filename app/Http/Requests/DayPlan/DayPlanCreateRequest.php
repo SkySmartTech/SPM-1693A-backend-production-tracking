@@ -23,18 +23,18 @@ class DayPlanCreateRequest extends FormRequest
     {
         return [
         'day_plans'                     => 'required|array',
-        'day_plans.*.line_no'           => 'required|string|max:255|unique:day_plans,line_no',
-        'day_plans.*.resp_employee'     => 'required|string|max:255',
+        'day_plans.*.lineNo'           => 'required|string|max:255|unique:day_plans,line_no',
+        'day_plans.*.respEmployee'     => 'required|string|max:255',
         'day_plans.*.buyer'             => 'required|string|max:255',
         'day_plans.*.style'             => 'required|string|max:255',
         'day_plans.*.gg'                => 'required|string|max:255',
         'day_plans.*.smv'               => 'required|numeric',
-        'day_plans.*.display_wh'        => 'required|integer',
-        'day_plans.*.actual_wh'         => 'required|string|max:255',
-        'day_plans.*.plan_tgt_pcs'      => 'required|numeric',
-        'day_plans.*.per_hour_pcs'      => 'required|numeric',
-        'day_plans.*.available_cader'   => 'required|integer',
-        'day_plans.*.present_linkers'   => 'required|integer',
+        'day_plans.*.displayWH'        => 'required|integer',
+        'day_plans.*.actualWH'         => 'required|string|max:255',
+        'day_plans.*.planTgtPcs'      => 'required|numeric',
+        'day_plans.*.perHourPcs'      => 'required|numeric',
+        'day_plans.*.availableCader'   => 'required|integer',
+        'day_plans.*.presentLinkers'   => 'required|integer',
         'day_plans.*.CheckPointName'    => 'required|string|max:255',
         'day_plans.*.status'            => 'required|integer'
         ];
