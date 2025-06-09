@@ -49,7 +49,7 @@ class UserRoleController extends Controller
         ], 201);
     }
 
-    public function update(UserRoleUpdateRequest $request, $id)
+    public function update(UserRoleCreateRequest $request, $id)
     {
         $data = $request->validated();
 

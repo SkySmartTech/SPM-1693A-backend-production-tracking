@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('defects', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('style_no')->nullable();
+            $table->bigInteger('styleNo')->nullable();
             $table->bigInteger('operation')->nullable();
-            $table->integer('code_no')->nullable();
-            $table->string('defect_code')->nullable();
+            $table->integer('codeNo')->nullable();
+            $table->string('defectCode')->nullable();
             $table->enum('status', ['good', 'bad'])->default('good')->nullable();
             $table->timestamps();
         });

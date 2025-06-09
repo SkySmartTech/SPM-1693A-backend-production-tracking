@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('production_updates', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('server_date_time');
-            $table->string('line_no')->nullable();
-            $table->string('qr_code')->nullable();
+            $table->timestamp('serverDateTime');
+            $table->string('lineNo')->nullable();
+            $table->string('QRCode')->nullable();
             $table->string('buyer')->nullable();
             $table->string('gg')->nullable();
             $table->double('smv', 8, 2)->nullable();
-            $table->double('present_carder', 8, 2)->nullable();
+            $table->double('presentCarder', 8, 2)->nullable();
             $table->string('style')->nullable();
             $table->string('color')->nullable();
-            $table->string('size_name')->nullable();
-            $table->string('check_point')->nullable();
-            $table->enum('quality_state', ['Success','Rework', 'Defect'])->default('Success')->nullable();
+            $table->string('sizeName')->nullable();
+            $table->string('checkPoint')->nullable();
+            $table->enum('qualityState', ['Success','Rework', 'Defect'])->default('Success')->nullable();
             $table->string('part')->nullable();
             $table->string('location')->nullable();
-            $table->string('defect_code')->nullable();
+            $table->string('defectCode')->nullable();
             $table->integer('state')->nullable();
             $table->timestamps();
         });

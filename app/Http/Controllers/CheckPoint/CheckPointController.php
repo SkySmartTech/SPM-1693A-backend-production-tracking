@@ -5,7 +5,6 @@ namespace App\Http\Controllers\CheckPoint;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckPoint\CheckPointCreateRequest;
 use App\Repositories\All\CheckPoint\CheckPointInterface;
-use Illuminate\Http\Request;
 
 class CheckPointController extends Controller
 {

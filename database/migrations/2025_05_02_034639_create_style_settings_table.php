@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('style_settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('style_no')->nullable();
-            $table->text('style_description')->nullable();
+            $table->integer('styleNo')->nullable();
+            $table->text('styleDescription')->nullable();
             $table->integer('state')->nullable();
             $table->integer('status')->nullable();
             $table->timestamps();
