@@ -21,14 +21,6 @@ class ColorSettingController extends Controller
         return response()->json($colors, 200);
     }
 
-
-    public function allColors()
-    {
-        $color = $this->colorInterface->all()->pluck('color');
-        return response()->json($color, 200);
-    }
-
-
     public function store(ColorCreateRequest $request){
 
         $validatedColor = $request->validated();

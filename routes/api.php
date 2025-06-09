@@ -85,12 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('day-plan-create', [DayPlanController::class, 'store']);
     Route::get('all-day-plans', [DayPlanController::class, 'index']);
-
-    Route::get('team-no', [DayPlanController::class, 'allTeams']);
-    Route::get('style', [StyleSettingController::class, 'allStyles']);
-    Route::get('color', [ColorSettingController::class, 'allColors']);
-    Route::get('size', [SizeSettingController::class, 'allSizes']);
-    Route::get('checkpoint', [CheckPointController::class, 'allCheckPoints']);
+    Route::get('team-no', [DayPlanController::class, 'index']);
 
     Route::post('production-update', [ProductionUpdateController::class, 'store']);
     Route::get('production-success', [ProductionUpdateController::class, 'countSuccess']);

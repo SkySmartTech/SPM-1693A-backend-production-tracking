@@ -25,12 +25,6 @@ class CheckPointController extends Controller
         return response()->json($checkPoints, 200);
     }
 
-    public function allCheckPoints()
-    {
-        $checkPoints = $this->checkPointInterface->all()->pluck('check_point_name');
-        return response()->json($checkPoints, 200);
-    }
-
     public function store(CheckPointCreateRequest $request)
     {
         $validatedcheckPoint = $request->validated();

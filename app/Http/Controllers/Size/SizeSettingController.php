@@ -27,12 +27,6 @@ class SizeSettingController extends Controller
         return response()->json($size, 200);
     }
 
-    public function allSizes()
-    {
-        $sizes = $this->sizeInterface->all()->pluck('sizes');
-        return response()->json($sizes, 200);
-    }
-
     public function store(SizeCreateRequest $request)
     {
         $validatedSize = $request->validated();
