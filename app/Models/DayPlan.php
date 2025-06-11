@@ -10,19 +10,19 @@ class DayPlan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'line_no',
-        'resp_employee',
+        'lineNo',
+        'respEmployee',
         'buyer',
         'style',
         'gg',
         'smv',
-        'display_wh',
-        'actual_wh',
-        'plan_tgt_pcs',
-        'per_hour_pcs',
-        'available_cader',
-        'present_linkers',
-        'check_point',
+        'displayWH',
+        'actualWH',
+        'planTgtPcs',
+        'perHourPcs',
+        'availableCader',
+        'presentLinkers',
+        'checkPoint',
         'status',
     ];
 }

@@ -11,6 +11,6 @@ class ColorSetting extends Model
 
     protected $fillable = [
         'color',
-        'color_code',
+        'colorCode',
     ];
 }

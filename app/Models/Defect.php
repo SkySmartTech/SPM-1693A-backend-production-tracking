@@ -10,10 +10,10 @@ class Defect extends Model
     use HasFactory;
 
     protected $fillable = [
-        'style_no',
+        'styleNo',
         'operation',
-        'code_no',
-        'defect_code',
+        'codeNo',
+        'defectCode',
         'status',
     ];
 

@@ -10,21 +10,21 @@ class ProductionUpdate extends Model
     use HasFactory;
 
     protected $fillable = [
-        'server_date_time',
-        'line_no',
-        'qr_code',
+        'serverDateTime',
+        'lineNo',
+        'QRCode',
         'buyer',
         'gg',
         'smv',
-        'present_carder',
+        'presentCarder',
         'style',
         'color',
-        'size_name',
-        'check_point',
-        'quality_state',
+        'sizeName',
+        'checkPoint',
+        'qualityState',
         'part',
         'location',
-        'defect_code',
+        'defectCode',
         'state',
     ];
 }
