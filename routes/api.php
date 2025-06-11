@@ -13,6 +13,7 @@ use App\Http\Controllers\Operation\OperationController;
 use App\Http\Controllers\ProductionUpdate\ProductionUpdateController;
 use App\Http\Controllers\Size\SizeSettingController;
 use App\Http\Controllers\Style\StyleSettingController;
+use App\Http\Controllers\Summary\SummaryController;
 use App\Http\Controllers\User\UserAccessController;
 use App\Http\Controllers\User\UserRoleController;
 use Illuminate\Support\Facades\Route;
@@ -95,5 +96,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('upto-now-target-archive', [DashboardController::class, 'countUptoNowTargetArchive']);
     Route::get('total-check-qty', [DashboardController::class, 'countTotalCheckQty']);
     Route::get('line-efi', [DashboardController::class, 'countLineEFI']);
+
+    Route::post('summary', [SummaryController::class, 'getSummary']);
 
 });
