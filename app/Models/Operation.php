@@ -10,9 +10,9 @@ class Operation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'style_no',
+        'styleNo',
         'operation',
-        'sequence_no',
+        'sequenceNo',
         'smv',
         'status',
     ];

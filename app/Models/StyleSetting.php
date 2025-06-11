@@ -10,8 +10,8 @@ class StyleSetting extends Model
     use HasFactory;
 
     protected $fillable = [
-        'style_no',
-        'style_description',
+        'styleNo',
+        'styleDescription',
         'state',
         'status',
     ];

@@ -10,7 +10,7 @@ class SizeSetting extends Model
     use HasFactory;
 
     protected $fillable = [
-        'size_name',
+        'sizeName',
         'description',
     ];
 }
