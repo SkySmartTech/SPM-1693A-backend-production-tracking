@@ -47,7 +47,19 @@ class UserController extends Controller
         ]);
     }
 
-    public function profilepdate(UserProfileUpdateRequest $request, $id)
+    public function updateStatus($id)
+    {
+        $user = $this->userInterface->findById($id);
+
+        $user->status = false;
+        $user->save();
+
+        return response()->json([
+            'message' => 'User deactivated successfully.',
+        ]);
+    }
+
+    public function profileUpdate(UserProfileUpdateRequest $request, $id)
     {
         $data        = $request->validated();
         $updatedUser = $this->userInterface->update($id, $data);
