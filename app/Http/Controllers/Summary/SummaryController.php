@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Summary;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductionUpdate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -14,28 +15,49 @@ class SummaryController extends Controller
         $request->validate([
             'start_date' => 'required|date',
             'end_date'   => 'required|date|after_or_equal:start_date',
+            'lineNo'     => 'nullable|string'
         ]);
 
         $startDate = Carbon::parse($request->input('start_date'))->startOfDay();
         $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+        $lineNo = $request->input('lineNo');
 
-        $formattedStartDate = $startDate->format('Y-m-d');
-        $formattedEndDate = $endDate->format('Y-m-d');
+        $query = ProductionUpdate::whereBetween('serverDateTime', [$startDate, $endDate]);
+        if ($lineNo) {
+            $query->where('lineNo', $lineNo);
+        }
 
-        $topDefects = DB::table('production_updates')
-            ->select('defect_code', DB::raw('count(*) as total'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->whereIn('quality_state', ['rework', 'defect'])
-            ->groupBy('defect_code')
+        $totalSuccess = (clone $query)->where('qualityState', 'success')->count();
+        $totalRework  = (clone $query)->where('qualityState', 'rework')->count();
+        $totalDefect  = (clone $query)->where('qualityState', 'defect')->count();
+
+        $topDefectsQuery = DB::table('production_updates')
+            ->select('defectCode', DB::raw('count(*) as total'))
+            ->whereBetween('serverDateTime', [$startDate, $endDate])
+            ->whereIn('qualityState', ['rework', 'defect'])
+            ->whereNotNull('defectCode');
+
+        if ($lineNo) {
+            $topDefectsQuery->where('lineNo', $lineNo);
+        }
+
+        $topDefects = $topDefectsQuery
+            ->groupBy('defectCode')
             ->orderByDesc('total')
             ->limit(3)
             ->get();
 
+        $productionData = $query->orderBy('serverDateTime', 'asc')->get();
+
         return response()->json([
-            'message' => 'Data fetched successfully',
-            'start_date' => $formattedStartDate,
-            'end_date' => $formattedEndDate,
-            'top_defects' => $topDefects,
+            //'start_date'    => $startDate->toDateString(),
+            //'end_date'      => $endDate->toDateString(),
+            'lineNo'        => $lineNo ?? 'All',
+            'total_success' => $totalSuccess,
+            'total_rework'  => $totalRework,
+            'total_defect'  => $totalDefect,
+            'top_defects'   => $topDefects,
+            'production'    => $productionData,
         ]);
     }
 }
