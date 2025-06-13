@@ -15,8 +15,8 @@ class LoginController extends Controller
 
         $user = User::where('username', $credentials['username'])->first();
 
-        if (!$user->availability) {
-            return response()->json(['message' => 'Your account is unavailable.'], 403);
+        if (!$user->status) {
+            return response()->json(['message' => 'Your account is inactive.'], 403);
         }
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {

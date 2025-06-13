@@ -31,7 +31,7 @@ class UserRegisterRequest extends FormRequest
             'email'         => 'required|string|email|max:255|unique:users',
             'userType'      => 'required|string',
             'availability'  => 'required|boolean',
-            'status'        => 'required|string',
+            'status'        => 'required|boolean',
         ];
     }
 }
