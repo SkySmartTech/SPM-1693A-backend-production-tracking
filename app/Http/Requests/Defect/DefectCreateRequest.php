@@ -22,10 +22,10 @@ class DefectCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'styleNo'      => 'required|integer|exists:style_settings,style_no',
+            'styleNo'      => 'required|integer|exists:style_settings,styleNo',
             'operation'     => 'required|integer|exists:operations,operation',
             'codeNo'       => 'required|integer',
-            'defectCode'   => 'required|string|unique:defects,defect_code',
+            'defectCode'   => 'required|string|unique:defects,defectCode',
             'status'        => 'required|string',
         ];
     }
