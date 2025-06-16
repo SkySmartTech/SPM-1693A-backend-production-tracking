@@ -11,6 +11,7 @@ use App\Http\Controllers\DayPlan\DayPlanController;
 use App\Http\Controllers\Defect\DefectController;
 use App\Http\Controllers\Operation\OperationController;
 use App\Http\Controllers\ProductionUpdate\ProductionUpdateController;
+use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Size\SizeSettingController;
 use App\Http\Controllers\Style\StyleSettingController;
 use App\Http\Controllers\Summary\SummaryController;
@@ -99,5 +100,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('line-efi', [DashboardController::class, 'countLineEFI']);
 
     Route::post('summary', [SummaryController::class, 'getSummary']);
+
+    Route::post('report', [ReportController::class, 'getReport']);
 
 });
