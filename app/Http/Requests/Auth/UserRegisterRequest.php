@@ -22,16 +22,13 @@ class UserRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'epf'           => 'required|string|max:10',
+            'epf'           => 'required|string|max:10|unique:users,epf',
             'employeeName'  => 'required|string|max:255',
-            'username'      => 'required|string|max:255',
+            'username'      => 'required|string|max:255|unique:users,username',
             'password'      => 'required|string|min:8|confirmed',
             'department'    => 'required|string|max:255',
             'contact'       => 'required|string|max:15',
-            'email'         => 'required|string|email|max:255|unique:users',
-            'userType'      => 'required|string',
-            'availability'  => 'required|boolean',
-            'status'        => 'required|boolean',
+            'email'         => 'required|string|email|max:255',
         ];
     }
 }
