@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Repositories\All\User\UserInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserRegisterController extends Controller
