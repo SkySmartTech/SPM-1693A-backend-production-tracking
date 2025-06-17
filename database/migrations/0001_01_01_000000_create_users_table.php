@@ -17,12 +17,11 @@ return new class extends Migration
             $table->string('employeeName')->nullable();
             $table->string('username')->nullable();
             $table->string('password')->nullable();
-            $table->string('department')->nullable();
+            $table->enum('department', ['HR', 'IT', 'Finance'])->nullable();
             $table->string('contact')->nullable();
             $table->string('email')->unique()->nullable();
-            $table->string('userType')->nullable();
-            $table->boolean('availability')->nullable();
-            $table->boolean('status')->nullable();
+            $table->string('userType')->default('user')->nullable();
+            $table->boolean('availability')->default(true)->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

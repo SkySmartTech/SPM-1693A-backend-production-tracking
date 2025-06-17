@@ -28,7 +28,7 @@ class UserCreateRequest extends FormRequest
             'password'      => 'required|string|min:8',
             'department'    => 'required|string|max:255',
             'contact'       => 'required|string|max:15',
-            'email'         => 'required|string|email|max:255|unique:users',
+            'email'         => 'required|string|email|max:255',
             'userType'      => 'required|string',
             'availability'  => 'required|boolean',
             'status'        => 'required|boolean',

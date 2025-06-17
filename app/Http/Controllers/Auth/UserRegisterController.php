@@ -16,9 +16,7 @@ class UserRegisterController extends Controller
     {
         $this->userInterface = $userInterface;
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(UserRegisterRequest $request)
     {
         $validated = $request->validated(); //with password confirm
@@ -39,7 +37,7 @@ class UserRegisterController extends Controller
         $this->userInterface->create($validated);
 
         return response()->json([
-            'message' => 'User registered successfully!',
+            'message' => 'User created successfully!',
         ], 201);
     }
 }
