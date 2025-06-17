@@ -41,15 +41,15 @@ class UserRegisterController extends Controller
     //     ], 201);
     // }
 
-    // public function userCreate(UserCreateRequest $request)
-    // {
-    //     $validated = $request->validated(); //without password confirm
-    //     $validated['password'] = Hash::make($validated['password']);
+    public function userCreate(UserCreateRequest $request)
+    {
+        $validated = $request->validated(); //without password confirm
+        $validated['password'] = Hash::make($validated['password']);
 
-    //     $this->userInterface->create($validated);
+        $this->userInterface->create($validated);
 
-    //     return response()->json([
-    //         'message' => 'User created successfully!',
-    //     ], 201);
-    // }
+        return response()->json([
+            'message' => 'User created successfully!',
+        ], 201);
+    }
 }
