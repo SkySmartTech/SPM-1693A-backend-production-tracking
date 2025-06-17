@@ -43,15 +43,14 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User updated successfully!',
-            'data'    => $updatedUser,
         ]);
     }
 
-    public function updateStatus($id)
+    public function updateAvailability($id)
     {
         $user = $this->userInterface->findById($id);
 
-        $user->status = false;
+        $user->availability = false;
         $user->save();
 
         return response()->json([
@@ -66,7 +65,6 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'User Profile updated successfully!',
-            'data'    => $updatedUser,
         ]);
     }
 

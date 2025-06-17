@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('all-users', [UserController::class, 'index']);
     Route::get('user', [UserController::class, 'show']);
     Route::post('user-create', [UserRegisterController::class, 'userCreate']);
-    Route::post('user/{id}/status-update', [UserController::class, 'updateStatus']);
+    Route::post('user/{id}/availability-update', [UserController::class, 'updateAvailability']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profileUpdate']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
 
