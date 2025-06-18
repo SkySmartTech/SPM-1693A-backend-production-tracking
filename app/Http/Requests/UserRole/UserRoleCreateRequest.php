@@ -22,7 +22,7 @@ class UserRoleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'userType'  => 'required|string',
+            'userType'  => 'required|string|unique:user_roles,userType',
         ];
     }
 }
