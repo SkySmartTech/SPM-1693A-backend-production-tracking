@@ -22,15 +22,14 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'epf'           => 'required|string|max:10',
+            'epf'           => 'required|string|max:15',
             'employeeName'  => 'required|string|max:255',
             'username'      => 'required|string|max:255',
             'department'    => 'required|string|max:255',
             'contact'       => 'required|string|max:15',
-            'email'         => 'required|string|email|max:255|exists:users,email',
+            'email'         => 'required|string|email|max:255',
             'userType'      => 'required|string',
             'availability'  => 'required|boolean',
-            'status'        => 'nullable|boolean',
         ];
     }
 }
