@@ -66,7 +66,6 @@ class CheckPointController extends Controller
 
         return response()->json([
             'message' => 'Check Point updated successfully!',
-            'data' => $updatedCheckPoint
         ], 200);
     }
 
