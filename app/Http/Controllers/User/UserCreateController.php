@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\UserRegisterRequest;
+use App\Http\Requests\User\UserCreateRequest;
 use App\Repositories\All\User\UserInterface;
 use Illuminate\Support\Facades\Hash;
 
-class UserRegisterController extends Controller
+class UserCreateController extends Controller
 {
     protected $userInterface;
 
@@ -16,15 +16,15 @@ class UserRegisterController extends Controller
         $this->userInterface = $userInterface;
     }
 
-    public function store(UserRegisterRequest $request)
+    public function userCreate(UserCreateRequest $request)
     {
-        $validated = $request->validated(); //with password confirm
+        $validated = $request->validated(); //without password confirm
         $validated['password'] = Hash::make($validated['password']);
 
         $this->userInterface->create($validated);
 
         return response()->json([
-            'message' => 'User registered successfully!',
+            'message' => 'User created successfully!',
         ], 201);
     }
 }

@@ -22,15 +22,15 @@ class UserCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'epf'           => 'required|string|max:10',
+            'epf'           => 'required|string|max:15|unique:users,epf',
             'employeeName'  => 'required|string|max:255',
-            'username'      => 'required|string|max:255',
+            'username'      => 'required|string|max:255|unique:users,username',
             'password'      => 'required|string|min:8',
             'department'    => 'required|string|max:255',
             'contact'       => 'required|string|max:15',
             'email'         => 'required|string|email|max:255',
-            'userType'      => 'required|string',
-            'availability'  => 'required|boolean',
+            'userType'      => 'nullable|string',
+            'availability'  => 'nullable|boolean',
         ];
     }
 }

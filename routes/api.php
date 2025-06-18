@@ -16,14 +16,14 @@ use App\Http\Controllers\Size\SizeSettingController;
 use App\Http\Controllers\Style\StyleSettingController;
 use App\Http\Controllers\Summary\SummaryController;
 use App\Http\Controllers\User\UserAccessController;
+use App\Http\Controllers\User\UserCreateController;
 use App\Http\Controllers\User\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('user-role', [UserRoleController::class, 'allUserType']);
-Route::post('user-register', [UserRegisterController::class, 'userRegister']);
+Route::post('user-register', [UserRegisterController::class, 'store']);
 Route::post('login', [LoginController::class, 'login']);
-
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('all-users', [UserController::class, 'index']);
     Route::get('user', [UserController::class, 'show']);
-    Route::post('user-create', [UserRegisterController::class, 'userCreate']);
+    Route::post('user-create', [UserCreateController::class, 'userCreate']);
     Route::post('user/{id}/availability-update', [UserController::class, 'updateAvailability']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profileUpdate']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
