@@ -10,6 +10,6 @@ class CheckPoint extends Model
     use HasFactory;
 
     protected $fillable = [
-        'CheckPointName',
+        'checkPointName',
     ];
 }

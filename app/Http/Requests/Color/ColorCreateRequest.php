@@ -22,7 +22,7 @@ class ColorCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'color'        => 'required|string|max:255|unique:color_settings,color',
+            'color'        => 'required|string|max:255',
             'colorCode'    => 'required|string|max:7|regex:/^#[0-9A-Fa-f]{6}$/|unique:color_settings,colorCode',
         ];
     }
