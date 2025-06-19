@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Style;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Style\StyleCreateRequest;
+use App\Http\Requests\Style\StyleUpdateRequest;
 use App\Repositories\All\Style\StyleInterface;
 
 class StyleSettingController extends Controller
@@ -39,7 +40,7 @@ class StyleSettingController extends Controller
         return response()->json($style, 200);
     }
 
-    public function update(StyleCreateRequest $request, string $id)
+    public function update(StyleUpdateRequest $request, string $id)
     {
         $style = $this->styleInterface->findById($id);
 
