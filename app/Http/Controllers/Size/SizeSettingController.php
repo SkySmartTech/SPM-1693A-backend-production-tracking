@@ -60,7 +60,6 @@ class SizeSettingController extends Controller
 
         return response()->json([
             'message' => 'Size updated successfully!',
-            'data' => $updatedSize
         ], 200);
     }
 

@@ -45,7 +45,6 @@ class UserRoleController extends Controller
 
         return response()->json([
             'message' => 'User Role created successfully!',
-            'Data'=>$validated
         ], 201);
     }
 
@@ -57,7 +56,6 @@ class UserRoleController extends Controller
 
         return response()->json([
             'message' => 'User Role updated successfully!',
-            'data' => $updatedUserRole,
         ]);
     }
 

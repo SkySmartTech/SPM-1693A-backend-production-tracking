@@ -60,7 +60,6 @@ class DefectController extends Controller
 
         return response()->json([
             'message' => 'Defect updated successfully!',
-            'data' => $updatedDefect
         ], 200);
     }
 

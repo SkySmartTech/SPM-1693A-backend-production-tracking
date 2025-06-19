@@ -54,7 +54,6 @@ class ColorSettingController extends Controller
 
         return response()->json([
             'message' => 'Color updated successfully!',
-            'data' => $updatedColor
         ], 200);
     }
 

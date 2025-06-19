@@ -61,7 +61,6 @@ class StyleSettingController extends Controller
 
         return response()->json([
             'message' => 'Style updated successfully!',
-            'data' => $updatedStyle
         ], 200);
     }
 
