@@ -58,7 +58,7 @@ class ProductionUpdateController extends Controller
         $hourlyCounts = array_fill(1, 8, 0);
 
         foreach ($records as $record) {
-            $time = Carbon::parse($record->server_date_time);
+            $time = Carbon::parse($record->serverDateTime);
             $diffInMinutes = $shiftStart->diffInMinutes($time, false);
 
             if ($diffInMinutes >= 0 && $diffInMinutes < 480) {
