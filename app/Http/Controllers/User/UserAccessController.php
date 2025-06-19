@@ -28,7 +28,6 @@ class UserAccessController extends Controller
 
         return response()->json([
             'message' => 'User Access created successfully!',
-            'Data'    => $validated,
         ], 201);
     }
 
@@ -46,7 +45,6 @@ class UserAccessController extends Controller
 
         return response()->json([
             'message' => 'User Access updated successfully!',
-            'data'    => $updatedUserAccess,
         ]);
     }
 

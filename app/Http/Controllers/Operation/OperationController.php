@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Operation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Operation\OperationCreateRequest;
+use App\Http\Requests\Operation\OperationUpdateRequest;
 use App\Repositories\All\Operation\OperationInterface;
 
 class OperationController extends Controller
@@ -33,7 +34,7 @@ class OperationController extends Controller
         ], 201);
     }
 
-    public function update(OperationCreateRequest $request, $id)
+    public function update(OperationUpdateRequest $request, $id)
     {
         $operation = $this->operationInterface->findById($id);
 
@@ -55,7 +56,6 @@ class OperationController extends Controller
 
         return response()->json([
             'message' => 'Operation updated successfully!',
-            'data' => $updatedOperation
         ], 200);
     }
 
