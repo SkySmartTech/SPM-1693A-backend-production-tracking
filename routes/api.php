@@ -29,7 +29,7 @@ Route::post('login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('user-logout', [LogoutController::class, 'logout']);
 
-
+    Route::post('add-new-user', [UserController::class, 'store']);
     Route::get('all-users', [UserController::class, 'index']);
     Route::get('user', [UserController::class, 'show']);
     Route::post('user-create', [UserCreateController::class, 'userCreate']);

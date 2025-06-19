@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserProfileUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Repositories\All\User\UserInterface;
@@ -20,6 +21,17 @@ class UserController extends Controller
     {
         $users = $this->userInterface->all();
         return response()->json($users, 200);
+    }
+
+    public function store(UserCreateRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        $this->userInterface->create($validatedData);
+
+        return response()->json([
+            'message' => 'User created successfully!',
+        ], 201);
     }
 
     public function show(Request $request)
