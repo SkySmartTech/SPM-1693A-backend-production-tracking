@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Operation;
+namespace App\Http\Requests\Style;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OperationUpdateRequest extends FormRequest
+class StyleUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class OperationUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'styleNo'     => 'required|integer|exists:style_settings,styleNo',
-            'operation'   => 'required|integer',
-            'sequenceNo'  => 'required|string',
-            'smv'         => 'required|numeric',
-            'status'      => 'required|string',
+            'styleNo'          => 'required|integer',
+            'styleDescription' => 'required|string',
+            'state'            => 'required|integer',
+            'status'           => 'required|integer',
         ];
     }
 }
