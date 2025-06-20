@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Defect;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Defect\DefectCreateRequest;
+use App\Http\Requests\Defect\DefectUpdateRequest;
 use App\Repositories\All\Defect\DefectInterface;
 
 class DefectController extends Controller
@@ -38,7 +39,7 @@ class DefectController extends Controller
         return response()->json($defect, 200);
     }
 
-    public function update(DefectCreateRequest $request, $id)
+    public function update(DefectUpdateRequest $request, $id)
     {
         $defect = $this->defectInterface->findById($id);
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Color;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserProfileUpdateRequest extends FormRequest
+class ColorUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class UserProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employeeName'  => 'required|string|max:255',
-            'username'      => 'required|string|max:255',
-            'department'    => 'required|string|max:255',
-            'contact'       => 'required|string|max:15',
-            'email'         => 'required|string|email|max:255',
+            'color'        => 'required|string|max:255',
+            'colorCode'    => 'required|string|max:7|regex:/^#[0-9A-Fa-f]{6}$/',
         ];
     }
 }

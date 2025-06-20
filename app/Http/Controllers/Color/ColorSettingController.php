@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Color;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Color\ColorCreateRequest;
+use App\Http\Requests\Color\ColorUpdateRequest;
 use App\Repositories\All\Color\ColorInterface;
 
 class ColorSettingController extends Controller
@@ -32,7 +33,7 @@ class ColorSettingController extends Controller
         ], 201);
     }
 
-    public function update(ColorCreateRequest $request, $id)
+    public function update(ColorUpdateRequest $request, $id)
     {
         $color = $this->colorInterface->findById($id);
 

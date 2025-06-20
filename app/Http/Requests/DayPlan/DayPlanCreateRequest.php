@@ -23,7 +23,7 @@ class DayPlanCreateRequest extends FormRequest
     {
         return [
         'day_plans'                     => 'required|array',
-        'day_plans.*.lineNo'            => 'required|string|max:255|unique:day_plans,lineNo',
+        'day_plans.*.lineNo'            => 'required|string|max:255',
         'day_plans.*.respEmployee'      => 'required|string|max:255',
         'day_plans.*.buyer'             => 'required|string|max:255',
         'day_plans.*.style'             => 'required|string|max:255',

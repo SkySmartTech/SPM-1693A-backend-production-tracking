@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Defect;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserProfileUpdateRequest extends FormRequest
+class DefectUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,11 @@ class UserProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employeeName'  => 'required|string|max:255',
-            'username'      => 'required|string|max:255',
-            'department'    => 'required|string|max:255',
-            'contact'       => 'required|string|max:15',
-            'email'         => 'required|string|email|max:255',
+            'styleNo'      => 'required|integer|exists:style_settings,styleNo',
+            'operation'     => 'required|integer|exists:operations,operation',
+            'codeNo'       => 'required|integer',
+            'defectCode'   => 'required|string',
+            'status'        => 'required|string',
         ];
     }
 }
