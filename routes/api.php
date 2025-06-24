@@ -18,11 +18,10 @@ use App\Http\Controllers\Style\StyleSettingController;
 use App\Http\Controllers\Summary\SummaryController;
 use App\Http\Controllers\User\UserAccessController;
 use App\Http\Controllers\User\UserCreateController;
-use App\Http\Controllers\User\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('user-role', [UserRoleController::class, 'allUserType']);
+Route::get('user-role', [UserAccessController::class, 'index']);
 Route::post('user-register', [UserRegisterController::class, 'store']);
 Route::post('login', [LoginController::class, 'login']);
 
@@ -35,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [UserController::class, 'show']);
     Route::post('add-user', [AddUserController::class, 'store']);
     //Route::post('user-create', [UserCreateController::class, 'userCreate']);
-    Route::post('user/{id}/availability-update', [UserController::class, 'updateAvailability']);
+    Route::post('user/{id}/status-update', [UserController::class, 'updateStatus']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profileUpdate']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
 
@@ -44,12 +43,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user-access/{id}/show', [UserAccessController::class, 'show']);
     Route::post('user-access/{id}/update', [UserAccessController::class, 'update']);
     Route::delete('user-access/{id}/delete', [UserAccessController::class, 'destroy']);
-
-    Route::post('user-role-create', [UserRoleController::class, 'store']);
-    Route::get('user-roles', [UserRoleController::class, 'index']);
-    Route::get('user-role/{id}/show', [UserRoleController::class, 'show']);
-    Route::post('user-role/{id}/update', [UserRoleController::class, 'update']);
-    Route::delete('user-role/{id}/delete', [UserRoleController::class, 'destroy']);
 
     Route::post('color-create', [ColorSettingController::class, 'store']);
     Route::get('all-colors', [ColorSettingController::class, 'index']);

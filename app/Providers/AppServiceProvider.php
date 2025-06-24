@@ -48,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
         $router->aliasMiddleware('check.availability', CheckUserAvailability::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(UserAccessInterface::class, UserAccessRepository::class);
-        $this->app->bind(UserRoleInterface::class, UserRoleRepository::class);
         $this->app->bind(ColorInterface::class, ColorRepository::class);
         $this->app->bind(SizeInterface::class, SizeRepository::class);
         $this->app->bind(StyleInterface::class, StyleRepository::class);
