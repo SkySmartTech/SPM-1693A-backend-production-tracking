@@ -30,7 +30,6 @@ class UserUpdateRequest extends FormRequest
             'email'         => 'required|string|email|max:255',
             'userType'      => 'required|string',
             'availability'  => 'required|boolean',
-            'status'        => 'required|boolean',
         ];
     }
 }

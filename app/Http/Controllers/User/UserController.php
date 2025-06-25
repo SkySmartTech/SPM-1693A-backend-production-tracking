@@ -58,11 +58,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateStatus($id)
+    public function updateAvailability($id)
     {
         $user = $this->userInterface->findById($id);
 
-        $user->status = false;
+        $user->availability = false;
         $user->save();
 
         return response()->json([
