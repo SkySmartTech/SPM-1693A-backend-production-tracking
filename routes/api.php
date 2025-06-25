@@ -21,7 +21,6 @@ use App\Http\Controllers\User\UserCreateController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('user-role', [UserAccessController::class, 'index']);
 Route::post('user-register', [UserRegisterController::class, 'store']);
 Route::post('login', [LoginController::class, 'login']);
 
@@ -29,12 +28,12 @@ Route::post('login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('user-logout', [LogoutController::class, 'logout']);
 
-    //Route::post('add-new-user', [UserController::class, 'store']);
+    Route::post('add-new-user', [UserController::class, 'store']);
     Route::get('all-users', [UserController::class, 'index']);
     Route::get('user', [UserController::class, 'show']);
     Route::post('add-user', [AddUserController::class, 'store']);
-    //Route::post('user-create', [UserCreateController::class, 'userCreate']);
-    Route::post('user/{id}/status-update', [UserController::class, 'updateStatus']);
+    Route::post('user-create', [UserCreateController::class, 'userCreate']);
+    Route::post('user/{id}/availability-update', [UserController::class, 'updateAvailability']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profileUpdate']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
 

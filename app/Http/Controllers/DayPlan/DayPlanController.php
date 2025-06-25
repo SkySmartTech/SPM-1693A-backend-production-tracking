@@ -27,12 +27,10 @@ class DayPlanController extends Controller
     {
         $request->validate([
             'lineNo' => 'required|string',
-            'style'  => 'required|string',
         ]);
 
         $dayPlan = DayPlan::where('lineNo', $request->input('lineNo'))
-                        ->where('style', $request->input('style'))
-                        ->select('buyer', 'gg', 'smv', 'availableCader')
+                        ->select('style', 'buyer', 'gg', 'smv', 'availableCader')
                         ->first();
 
         return response()->json($dayPlan);

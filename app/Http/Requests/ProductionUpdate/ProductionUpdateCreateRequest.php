@@ -22,9 +22,9 @@ class ProductionUpdateCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'serverDateTime'    => 'required|date',
+            'serverDateTime'    => 'nullable|date',
             'lineNo'            => 'nullable|string|max:255',
-            'QRCode'            => 'nullable|string|max:255|unique:production_updates,QRCode',
+            'QRCode'            => 'nullable|string|max:255',
             'buyer'             => 'nullable|string|max:255',
             'gg'                => 'nullable|string|max:255',
             'smv'               => 'nullable|numeric',
