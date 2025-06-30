@@ -5,6 +5,7 @@ namespace App\Repositories\All\User;
 use App\Models\User;
 use App\Repositories\All\User\UserInterface;
 use App\Repositories\Base\BaseRepository;
+use Illuminate\Support\Collection;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -20,5 +21,13 @@ class UserRepository extends BaseRepository implements UserInterface
     public function __construct(User $model)
     {
         $this->model = $model;
+    }
+
+    public function search(string $keyword): Collection
+    {
+        return User::where('employeeName', 'like', "%{$keyword}%")
+                ->orWhere('username', 'like', "%{$keyword}%")
+                ->orWhere('epf', 'like', "%{$keyword}%")
+                ->get();
     }
 }

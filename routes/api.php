@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('user/{id}/availability-update', [UserController::class, 'updateAvailability']);
     Route::post('user/{id}/profile-update', [UserController::class, 'profileUpdate']);
     Route::post('user/{id}/update', [UserController::class, 'update']);
+    Route::post('user/search', [UserController::class, 'search']);
 
     Route::post('user-access-create', [UserAccessController::class, 'store']);
     Route::get('user-accesses', [UserAccessController::class, 'index']);

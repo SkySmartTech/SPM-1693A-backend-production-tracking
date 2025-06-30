@@ -80,4 +80,46 @@ class UserController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $users = $this->userInterface->search($keyword);
+
+        $userData = $users->map(function ($user) {
+            $userArray = $user->toArray();
+
+            // $permission            = $this->comPermissionInterface->getById($user->userType);
+            // $userArray['userType'] = [
+            //     'id'          => $permission->id ?? null,
+            //     'userType'    => $permission->userType ?? null,
+            //     'description' => $permission->description ?? null,
+            // ];
+
+            // $assigneeLevel          = $this->assigneeLevelInterface->getById($user->assigneeLevel);
+            // $userArray['userLevel'] = $assigneeLevel ? [
+            //     'id'        => $assigneeLevel->id,
+            //     'levelId'   => $assigneeLevel->levelId,
+            //     'levelName' => $assigneeLevel->levelName,
+            // ] : [];
+
+            // $profileImages = is_array($user->profileImage) ? $user->profileImage : json_decode($user->profileImage, true) ?? [];
+            // $signedImages  = [];
+
+            // foreach ($profileImages as $uri) {
+            //     $signed         = $this->profileImageService->getImageUrl($uri);
+            //     $signedImages[] = [
+            //         'fileName' => $signed['fileName'] ?? null,
+            //         'imageUrl' => $signed['signedUrl'] ?? null,
+            //     ];
+            // }
+
+            // $userArray['profileImage'] = $signedImages;
+
+            return $userArray;
+        });
+
+        return response()->json($userData, 200);
+    }
+
 }
