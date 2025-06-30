@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DayPlan\DayPlanController;
 use App\Http\Controllers\Defect\DefectController;
 use App\Http\Controllers\Operation\OperationController;
+use App\Http\Controllers\PartsLocations\PartsLocationsController;
 use App\Http\Controllers\ProductionUpdate\ProductionUpdateController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Size\SizeSettingController;
@@ -79,6 +80,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('check-point/{id}/show', [CheckPointController::class, 'show']);
     Route::post('check-point/{id}/update', [CheckPointController::class, 'update']);
     Route::delete('check-point/{id}/delete', [CheckPointController::class, 'destroy']);
+
+    Route::post('part-location-create', [PartsLocationsController::class, 'store']);
+    Route::get('all-part-locations', [PartsLocationsController::class, 'index']);
+    Route::get('part-location/{id}/show', [PartsLocationsController::class, 'show']);
+    Route::post('part-location/{id}/update', [PartsLocationsController::class, 'update']);
+    Route::delete('part-location/{id}/delete', [PartsLocationsController::class, 'destroy']);
 
     Route::post('day-plan-create', [DayPlanController::class, 'store']);
     Route::get('all-day-plans', [DayPlanController::class, 'index']);
