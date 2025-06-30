@@ -15,6 +15,8 @@ use App\Repositories\All\Defect\DefectInterface;
 use App\Repositories\All\Defect\DefectRepository;
 use App\Repositories\All\Operation\OperationInterface;
 use App\Repositories\All\Operation\OperationRepository;
+use App\Repositories\All\PartLocation\PartLocationInterface;
+use App\Repositories\All\PartLocation\PartLocationRepository;
 use App\Repositories\All\ProductionUpdate\ProductionUpdateInterface;
 use App\Repositories\All\ProductionUpdate\ProductionUpdateRepository;
 use App\Repositories\All\Size\SizeInterface;
@@ -25,8 +27,6 @@ use App\Repositories\All\User\UserInterface;
 use App\Repositories\All\User\UserRepository;
 use App\Repositories\All\UserAccess\UserAccessInterface;
 use App\Repositories\All\UserAccess\UserAccessRepository;
-use App\Repositories\All\UserRole\UserRoleInterface;
-use App\Repositories\All\UserRole\UserRoleRepository;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
@@ -57,5 +57,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CheckPointInterface::class, CheckPointRepository::class);
         $this->app->bind(ProductionUpdateInterface::class, ProductionUpdateRepository::class);
         $this->app->bind(AddUserInterface::class, AddUserRepository::class);
+        $this->app->bind(PartLocationInterface::class, PartLocationRepository::class);
     }
 }
