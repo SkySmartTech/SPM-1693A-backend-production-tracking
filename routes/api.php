@@ -101,6 +101,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('upto-now-target-archive', [DashboardController::class, 'countUptoNowTargetArchive']);
     Route::get('total-check-qty', [DashboardController::class, 'countTotalCheckQty']);
     Route::get('line-efi', [DashboardController::class, 'countLineEFI']);
+    Route::get('get-all', [DashboardController::class, 'generateFullDashboardData']);
 
     Route::post('summary', [SummaryController::class, 'getSummary']);
 

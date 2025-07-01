@@ -18,23 +18,23 @@ class ProductionUpdateController extends Controller
         $this->productionUpdateInterface = $productionUpdateInterface;
     }
 
-    public function countSuccess()
-    {
-        $count = ProductionUpdate::where('qualityState', 'Success')->whereDate('serverDateTime', Carbon::today())->count();
-        return response()->json($count);
-    }
+    // public function countSuccess()
+    // {
+    //     $count = ProductionUpdate::where('qualityState', 'Success')->whereDate('serverDateTime', Carbon::today())->count();
+    //     return response()->json($count);
+    // }
 
-    public function countRework()
-    {
-        $count = ProductionUpdate::where('qualityState', 'Rework')->whereDate('serverDateTime', Carbon::today())->count();
-        return response()->json($count);
-    }
+    // public function countRework()
+    // {
+    //     $count = ProductionUpdate::where('qualityState', 'Rework')->whereDate('serverDateTime', Carbon::today())->count();
+    //     return response()->json($count);
+    // }
 
-    public function countDefect()
-    {
-        $count = ProductionUpdate::where('qualityState', 'Defect')->whereDate('serverDateTime', Carbon::today())->count();
-        return response()->json($count);
-    }
+    // public function countDefect()
+    // {
+    //     $count = ProductionUpdate::where('qualityState', 'Defect')->whereDate('serverDateTime', Carbon::today())->count();
+    //     return response()->json($count);
+    // }
 
     public function store(ProductionUpdateCreateRequest $request)
     {
@@ -42,8 +42,14 @@ class ProductionUpdateController extends Controller
 
         $this->productionUpdateInterface->create($validatedProduction);
 
+        $successCount = ProductionUpdate::where('qualityState', 'Success')->whereDate('serverDateTime', Carbon::today())->count();
+        $reworkCount = ProductionUpdate::where('qualityState', 'Rework')->whereDate('serverDateTime', Carbon::today())->count();
+        $defectCount = ProductionUpdate::where('qualityState', 'Defect')->whereDate('serverDateTime', Carbon::today())->count();
         return response()->json([
             'message' => 'Production Updated successfully!',
+            'success' => $successCount,
+            'rework' => $reworkCount,
+            'defect' => $defectCount
         ], 201);
     }
 

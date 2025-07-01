@@ -24,7 +24,7 @@ class ProductionUpdateCreateRequest extends FormRequest
         return [
             'serverDateTime'    => 'nullable|date',
             'lineNo'            => 'nullable|string|max:255',
-            'QRCode'            => 'nullable|string|max:255',
+            'QRCode'            => 'nullable|string|max:255|unique:production_updates,QRCode',
             'buyer'             => 'nullable|string|max:255',
             'gg'                => 'nullable|string|max:255',
             'smv'               => 'nullable|numeric',
