@@ -24,6 +24,7 @@ class Dashboard extends Model
         'hourlyBalance',
         'totalCheckQuantity',
         'totalDefects',
+        'topDefectCode',
         'DHU',
         'performanceEFI',
         'lineEFI',
