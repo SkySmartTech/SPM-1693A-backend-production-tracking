@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function index()
+    {
+        $data = Dashboard::all();
+        return response()->json($data, 200);
+    }
+    
     public function generateFullDashboardData()
     {
         $shiftStart = Carbon::createFromTime(8, 0, 0);
@@ -32,7 +38,7 @@ class DashboardController extends Controller
 
         $dayPlans = DB::table('day_plans')
                 ->whereDate('created_at', $today)
-                ->select('lineNo', 'planTgtPcs', 'perHourPcs')
+                ->select('lineNo', 'buyer', 'planTgtPcs', 'perHourPcs')
                 ->get();
 
         $successCounts = DB::table('production_updates')
@@ -42,7 +48,7 @@ class DashboardController extends Controller
             ->groupBy('lineNo')
             ->get();
 
-        $results = $dayPlans->map(function ($plan) use ($successCounts,$uptoNowMinutes, $workingMinutes, $startTime, $now, $today) {
+        $results = $dayPlans->map(function ($plan) use ($successCounts, $uptoNowMinutes, $workingMinutes, $startTime, $now, $today) {
             $matched = $successCounts->firstWhere('lineNo', $plan->lineNo);
             $actualSuccess = $matched ? $matched->success_count : 0;
             $balance = $plan->perHourPcs - $actualSuccess;
@@ -52,7 +58,7 @@ class DashboardController extends Controller
             $archivedTarget = DB::table('production_updates')
                 ->where('lineNo', $plan->lineNo)
                 ->where('qualityState', 'success')
-                ->whereBetween('created_at', [$startTime, $now])
+                ->whereBetween('serverDateTime', [$startTime, $now])
                 ->count();
 
             $performanceEFI = $uptoNowTarget > 0
@@ -114,6 +120,7 @@ class DashboardController extends Controller
                     'totalCheckQty'      => $totalCheckQty,
                     'totalDefects'       => $totalDefects,
                     'dhu'                => $dhu,
+                    'top_defect_code'    => $result->top_defect_code ?? null,
                     'defect_code_counts' => $defect_code_counts,
                 ];
             }
@@ -143,25 +150,55 @@ class DashboardController extends Controller
                 }
 
             return [
-                'lineNo'            => $plan->lineNo,
-                'perHourTarget'     => $plan->perHourPcs,
-                'actualSuccess'     => $actualSuccess,
-                'hourlyBalance'     => $balance,
-
-                'today_target'       => $plan->planTgtPcs,
-                'upto_now_minutes'   => $uptoNowMinutes,
-                'upto_now_target'    => round($uptoNowTarget, 2),
-                'upto_now_achieved'  => $archivedTarget,
-                'upto_now_balance'   => $uptoNowBalance,
-                'today_balance'      => $todayBalance,
+                'lineNo'                => $plan->lineNo,
+                'buyer'                 => $plan->buyer,
+                'today_target'          => $plan->planTgtPcs,
+                'today_target_achieved' => $archivedTarget,
+                'today_balance'         => $todayBalance,
+                'upto_now_minutes'      => $uptoNowMinutes,
+                'upto_now_target'       => round($uptoNowTarget, 2),
+                'upto_now_achieved'     => $archivedTarget,
+                'upto_now_balance'      => $uptoNowBalance,
+                'perHourTarget'         => $plan->perHourPcs,
+                'hourlyTargetAchieve'   => $actualSuccess,
+                'hourlyBalance'         => $balance,
+                'totalCheckQty'      => $defectSummary[$plan->lineNo]['totalCheckQty']      ?? 0,
+                'success_count'      => $checkData->firstWhere('lineNo', $plan->lineNo)->success ?? 0,
+                'total_defect_count' => $checkData->firstWhere('lineNo', $plan->lineNo)->defect ?? 0,
+                'rework_count'       => $checkData->firstWhere('lineNo', $plan->lineNo)->rework ?? 0,
+                'dhu'                => $defectSummary[$plan->lineNo]['dhu']                ?? 0,
                 'performance_efi'    => $performanceEFI,
                 'line_efi'           => $lineEfiMap[$plan->lineNo] ?? 0,
-
-                'totalCheckQty'      => $defectSummary[$plan->lineNo]['totalCheckQty']      ?? 0,
-                'totalDefects'       => $defectSummary[$plan->lineNo]['totalDefects']       ?? 0,
-                'dhu'                => $defectSummary[$plan->lineNo]['dhu']                ?? 0,
+                'top_defect_code'    => $defectSummary[$plan->lineNo]['top_defect_code']    ?? null,
                 'defect_code_counts' => $defectSummary[$plan->lineNo]['defect_code_counts'] ?? [],
             ];
         });
+
+        foreach ($results as $row) {
+            Dashboard::create([
+                //'serverDateTime'       => Carbon::now(), // Or $now if already defined
+                'lineNo'               => $row['lineNo'],
+                'buyer'                => $row['buyer'],
+                'todayTarget'          => $row['today_target'],
+                'todayTargetAchieve'   => $row['today_target_achieved'],
+                'todayBalance'         => $row['today_balance'],
+                'uptoNowTarget'        => $row['upto_now_target'],
+                'uptoNowTargetAchieve' => $row['upto_now_achieved'],
+                'uptoNowBalance'       => $row['upto_now_balance'],
+                'hourlyTarget'         => $row['perHourTarget'],
+                'hourlyTargetAchieve'  => $row['hourlyTargetAchieve'],
+                'hourlyBalance'        => $row['hourlyBalance'],
+                'totalCheckQuantity'   => $row['totalCheckQty'],
+                'totalDefects'         => $row['total_defect_count'],
+                'topDefectCode'        => $row['top_defect_code'],
+                'DHU'                  => $row['dhu'],
+                'performanceEFI'       => $row['performance_efi'],
+                'lineEFI'              => $row['line_efi'],
+            ]);
+        }
+
+        return response()->json($results);
     }
+
+
 }
