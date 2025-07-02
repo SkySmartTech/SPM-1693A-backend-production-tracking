@@ -19,6 +19,7 @@ use App\Http\Controllers\Style\StyleSettingController;
 use App\Http\Controllers\Summary\SummaryController;
 use App\Http\Controllers\User\UserAccessController;
 use App\Http\Controllers\User\UserCreateController;
+use App\Models\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 
@@ -97,10 +98,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('production-defect', [ProductionUpdateController::class, 'countDefect']);
     Route::get('hourly-success', [ProductionUpdateController::class, 'countSuccessPerHour']);
 
-    Route::get('hourly-target', [DashboardController::class, 'countHourlyTarget']);
-    Route::get('upto-now-target-archive', [DashboardController::class, 'countUptoNowTargetArchive']);
-    Route::get('total-check-qty', [DashboardController::class, 'countTotalCheckQty']);
-    Route::get('line-efi', [DashboardController::class, 'countLineEFI']);
+    Route::get('all-dashboard-data', [DashboardController::class, 'index']);
     Route::get('get-all', [DashboardController::class, 'generateFullDashboardData']);
 
     Route::post('summary', [SummaryController::class, 'getSummary']);

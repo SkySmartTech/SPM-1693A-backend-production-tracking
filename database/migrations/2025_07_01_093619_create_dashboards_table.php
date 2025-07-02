@@ -28,6 +28,7 @@ return new class extends Migration
             $table->double('totalCheckQuantity', 8, 2)->nullable();
             $table->double('totalDefects', 8, 2)->nullable();
             $table->double('DHU', 8, 2)->nullable();
+            $table->string('topDefectCode')->nullable();
             $table->double('performanceEFI', 8, 2)->nullable();
             $table->double('lineEFI', 8, 2)->nullable();
             $table->timestamps();
