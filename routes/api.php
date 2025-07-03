@@ -19,7 +19,6 @@ use App\Http\Controllers\Style\StyleSettingController;
 use App\Http\Controllers\Summary\SummaryController;
 use App\Http\Controllers\User\UserAccessController;
 use App\Http\Controllers\User\UserCreateController;
-use App\Models\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 

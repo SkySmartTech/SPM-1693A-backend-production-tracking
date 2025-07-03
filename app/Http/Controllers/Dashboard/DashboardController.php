@@ -38,7 +38,7 @@ class DashboardController extends Controller
 
         $dayPlans = DB::table('day_plans')
                 ->whereDate('created_at', $today)
-                ->select('lineNo', 'buyer', 'planTgtPcs', 'perHourPcs')
+                ->select('lineNo', 'buyer', 'style', 'gg', 'smv', 'displayWH', 'actualWH', 'planTgtPcs', 'perHourPcs', 'availableCader')
                 ->get();
 
         $successCounts = DB::table('production_updates')
@@ -152,6 +152,13 @@ class DashboardController extends Controller
             return [
                 'lineNo'                => $plan->lineNo,
                 'buyer'                 => $plan->buyer,
+                'style'                 => $plan->style,
+                'gg'                    => $plan->gg,
+                'smv'                   => $plan->smv,
+                'displayWH'             => $plan->displayWH,
+                'actualWH'              => $plan->actualWH,
+                'availableCarder'       => $plan->availableCader,
+
                 'today_target'          => $plan->planTgtPcs,
                 'today_target_achieved' => $archivedTarget,
                 'today_balance'         => $todayBalance,
