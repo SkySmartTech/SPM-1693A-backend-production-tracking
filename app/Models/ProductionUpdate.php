@@ -10,7 +10,6 @@ class ProductionUpdate extends Model
     use HasFactory;
 
     protected $fillable = [
-        'serverDateTime',
         'lineNo',
         'QRCode',
         'buyer',
