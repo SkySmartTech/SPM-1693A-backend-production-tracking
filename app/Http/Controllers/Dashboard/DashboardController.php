@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $data = Dashboard::all();
         return response()->json($data, 200);
     }
-    
+
     public function generateFullDashboardData()
     {
         $shiftStart = Carbon::createFromTime(8, 0, 0);
@@ -176,7 +176,7 @@ class DashboardController extends Controller
 
         foreach ($results as $row) {
             Dashboard::create([
-                //'serverDateTime'       => Carbon::now(), // Or $now if already defined
+                'serverDateTime'       => Carbon::now(),
                 'lineNo'               => $row['lineNo'],
                 'buyer'                => $row['buyer'],
                 'todayTarget'          => $row['today_target'],
