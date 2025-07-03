@@ -18,23 +18,23 @@ class ProductionUpdateController extends Controller
         $this->productionUpdateInterface = $productionUpdateInterface;
     }
 
-    // public function countSuccess()
-    // {
-    //     $count = ProductionUpdate::where('qualityState', 'Success')->whereDate('serverDateTime', Carbon::today())->count();
-    //     return response()->json($count);
-    // }
+    public function countSuccess()
+    {
+        $count = ProductionUpdate::where('qualityState', 'Success')->whereDate('serverDateTime', Carbon::today())->count();
+        return response()->json($count);
+    }
 
-    // public function countRework()
-    // {
-    //     $count = ProductionUpdate::where('qualityState', 'Rework')->whereDate('serverDateTime', Carbon::today())->count();
-    //     return response()->json($count);
-    // }
+    public function countRework()
+    {
+        $count = ProductionUpdate::where('qualityState', 'Rework')->whereDate('serverDateTime', Carbon::today())->count();
+        return response()->json($count);
+    }
 
-    // public function countDefect()
-    // {
-    //     $count = ProductionUpdate::where('qualityState', 'Defect')->whereDate('serverDateTime', Carbon::today())->count();
-    //     return response()->json($count);
-    // }
+    public function countDefect()
+    {
+        $count = ProductionUpdate::where('qualityState', 'Defect')->whereDate('serverDateTime', Carbon::today())->count();
+        return response()->json($count);
+    }
 
     public function store(ProductionUpdateCreateRequest $request)
     {
