@@ -18,27 +18,10 @@ class ProductionUpdateController extends Controller
         $this->productionUpdateInterface = $productionUpdateInterface;
     }
 
-    public function countSuccess()
-    {
-        $count = ProductionUpdate::where('qualityState', 'Success')->whereDate('serverDateTime', Carbon::today())->count();
-        return response()->json($count);
-    }
-
-    public function countRework()
-    {
-        $count = ProductionUpdate::where('qualityState', 'Rework')->whereDate('serverDateTime', Carbon::today())->count();
-        return response()->json($count);
-    }
-
-    public function countDefect()
-    {
-        $count = ProductionUpdate::where('qualityState', 'Defect')->whereDate('serverDateTime', Carbon::today())->count();
-        return response()->json($count);
-    }
-
     public function store(ProductionUpdateCreateRequest $request)
     {
         $validatedProduction = $request->validated();
+        $validatedProduction['serverDateTime'] = Carbon::now();
 
         $this->productionUpdateInterface->create($validatedProduction);
 
@@ -51,29 +34,6 @@ class ProductionUpdateController extends Controller
             'rework' => $reworkCount,
             'defect' => $defectCount
         ], 201);
-    }
-
-    public function countSuccessPerHour()
-    {
-        $shiftStart = Carbon::parse('08:00:00');
-
-        $records = ProductionUpdate::where('qualityState', 'Success')
-                    ->whereDate('serverDateTime', today())
-                    ->get();
-
-        $hourlyCounts = array_fill(1, 8, 0);
-
-        foreach ($records as $record) {
-            $time = Carbon::parse($record->serverDateTime);
-            $diffInMinutes = $shiftStart->diffInMinutes($time, false);
-
-            if ($diffInMinutes >= 0 && $diffInMinutes < 480) {
-                $hourSlot = intdiv($diffInMinutes, 60) + 1;
-                $hourlyCounts[$hourSlot]++;
-            }
-        }
-
-        return response()->json([$hourlyCounts]);
     }
 
 }
