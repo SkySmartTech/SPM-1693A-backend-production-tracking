@@ -89,15 +89,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('day-plan-create', [DayPlanController::class, 'store']);
     Route::get('all-day-plans', [DayPlanController::class, 'index']);
-    Route::post('get-buyer', [DayPlanController::class, 'show']);
+    Route::post('get-production-data', [DayPlanController::class, 'show']);
 
     Route::post('production-update', [ProductionUpdateController::class, 'store']);
     Route::get('production-success', [ProductionUpdateController::class, 'countSuccess']);
     Route::get('production-rework', [ProductionUpdateController::class, 'countRework']);
     Route::get('production-defect', [ProductionUpdateController::class, 'countDefect']);
-    Route::get('hourly-success', [ProductionUpdateController::class, 'countSuccessPerHour']);
 
     Route::get('all-dashboard-data', [DashboardController::class, 'index']);
+    Route::post('dashboard', [DashboardController::class, 'getDashboardDataByLine']);
     Route::get('get-all', [DashboardController::class, 'generateFullDashboardData']);
 
     Route::post('summary', [SummaryController::class, 'getSummary']);

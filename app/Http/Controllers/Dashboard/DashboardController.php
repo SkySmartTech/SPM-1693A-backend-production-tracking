@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Dashboard;
 use App\Models\DayPlan;
-use App\Models\ProductionUpdate;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -206,6 +206,163 @@ class DashboardController extends Controller
 
         return response()->json($results);
     }
+
+    public function getDashboardDataByLine(Request $request)
+    {
+        $request->validate([
+            'lineNo' => 'required|string'
+        ]);
+
+        $lineNo = $request->input('lineNo');
+        $shiftStart = Carbon::createFromTime(8, 0, 0);
+        $startTime = Carbon::today()->setTime(8, 0, 0);
+        $now = Carbon::now();
+        $uptoNowMinutes = $now->greaterThan($startTime) ? $startTime->diffInMinutes($now) : 0;
+        $uptoNowMinutes = min((int) $uptoNowMinutes, 540);
+        $workingMinutes = 9 * 60;
+        $today = Carbon::today();
+        $hoursSinceShiftStart = floor($shiftStart->diffInHours($now));
+        $currentHourStart = $shiftStart->copy()->addHours($hoursSinceShiftStart);
+        $currentHourEnd = $currentHourStart->copy()->addHour();
+
+        if ($now->lt($shiftStart) || $now->gt($shiftStart->copy()->addHours(9))) {
+            return response()->json([
+                'message' => 'Outside working hours. No dashboard data generated.'
+            ], 200);
+        }
+
+        $plan = DB::table('day_plans')
+            ->where('lineNo', $lineNo)
+            ->whereDate('created_at', $today)
+            ->select('lineNo', 'buyer', 'style', 'gg', 'smv', 'displayWH', 'actualWH', 'planTgtPcs', 'perHourPcs', 'availableCader', 'presentLinkers')
+            ->first();
+
+        if (!$plan) {
+            return response()->json([
+                'message' => 'No day plan found for this line number.'
+            ], 404);
+        }
+
+        $actualSuccess = DB::table('production_updates')
+            ->where('lineNo', $lineNo)
+            ->where('qualityState', 'success')
+            ->whereBetween('serverDateTime', [$currentHourStart, $currentHourEnd])
+            ->count();
+
+        $uptoNowTarget = ($plan->planTgtPcs * $uptoNowMinutes) / $workingMinutes;
+
+        $archivedTarget = DB::table('production_updates')
+            ->where('lineNo', $lineNo)
+            ->where('qualityState', 'success')
+            ->whereBetween('serverDateTime', [$startTime, $now])
+            ->count();
+
+        $performanceEFI = $uptoNowTarget > 0
+            ? round($archivedTarget / $uptoNowTarget, 2)
+            : 0;
+
+        $uptoNowBalance = round($uptoNowTarget - $archivedTarget);
+        $todayBalance = $plan->planTgtPcs - $archivedTarget;
+
+        $checkData = DB::table('production_updates as pu')
+            ->select(
+                DB::raw("SUM(CASE WHEN pu.qualityState = 'Success' THEN 1 ELSE 0 END) as success"),
+                DB::raw("SUM(CASE WHEN pu.qualityState = 'Defect' THEN 1 ELSE 0 END) as defect"),
+                DB::raw("SUM(CASE WHEN pu.qualityState = 'Rework' THEN 1 ELSE 0 END) as rework"),
+                DB::raw("COUNT(*) as total_check_quantity")
+            )
+            ->where('pu.lineNo', $lineNo)
+            ->whereDate('pu.serverDateTime', $today)
+            ->first();
+
+        // Top defect code (separate query)
+        $topDefectCode = DB::table('production_updates')
+            ->select('defectCode', DB::raw('COUNT(*) as count'))
+            ->where('lineNo', $lineNo)
+            ->whereDate('serverDateTime', $today)
+            ->whereIn('qualityState', ['defect', 'rework'])
+            ->whereNotNull('defectCode')
+            ->groupBy('defectCode')
+            ->orderByDesc('count')
+            ->limit(1)
+            ->value('defectCode');
+
+        $defectCodes = DB::table('production_updates')
+            ->select('defectCode', DB::raw('COUNT(*) as count'))
+            ->where('lineNo', $lineNo)
+            ->whereDate('serverDateTime', $today)
+            ->whereIn('qualityState', ['defect', 'rework'])
+            ->whereNotNull('defectCode')
+            ->groupBy('defectCode')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'defectCode' => $item->defectCode,
+                    'count' => $item->count
+                ];
+            });
+
+        $totalDefects = ($checkData->defect ?? 0) + ($checkData->rework ?? 0);
+        $totalCheckQty = $checkData->total_check_quantity ?? 0;
+        $dhu = $totalCheckQty > 0 ? round(($totalDefects * 100) / $totalCheckQty, 2) : 0.00;
+
+        $lineEfi = $plan->presentLinkers > 0 && $uptoNowMinutes > 0
+            ? round(($plan->smv * $plan->planTgtPcs) / ($plan->presentLinkers * $uptoNowMinutes), 2)
+            : 0;
+
+
+        Dashboard::create([
+            'serverDateTime'       => now(),
+            'lineNo'               => $plan->lineNo,
+            'buyer'                => $plan->buyer,
+            'todayTarget'          => $plan->planTgtPcs,
+            'todayTargetAchieve'   => $archivedTarget,
+            'todayBalance'         => $todayBalance,
+            'uptoNowTarget'        => round($uptoNowTarget, 2),
+            'uptoNowTargetAchieve' => $archivedTarget,
+            'uptoNowBalance'       => $uptoNowBalance,
+            'hourlyTarget'         => $plan->perHourPcs,
+            'hourlyTargetAchieve'  => $actualSuccess,
+            'hourlyBalance'        => $plan->perHourPcs - $actualSuccess,
+            'totalCheckQuantity'   => $totalCheckQty,
+            'totalDefects'         => $totalDefects,
+            'topDefectCode'        => $topDefectCode,
+            'DHU'                  => $dhu,
+            'performanceEFI'       => $performanceEFI,
+            'lineEFI'              => $lineEfi,
+        ]);
+
+        return response()->json([
+            'lineNo'                => $plan->lineNo,
+            'buyer'                 => $plan->buyer,
+            'style'                 => $plan->style,
+            'gg'                    => $plan->gg,
+            'smv'                   => $plan->smv,
+            'displayWH'             => $plan->displayWH,
+            'actualWH'              => $plan->actualWH,
+            'availableCarder'       => $plan->availableCader,
+            'today_target'          => $plan->planTgtPcs,
+            'today_target_achieved' => $archivedTarget,
+            'today_balance'         => $todayBalance,
+            'upto_now_minutes'      => $uptoNowMinutes,
+            'upto_now_target'       => round($uptoNowTarget, 2),
+            'upto_now_achieved'     => $archivedTarget,
+            'upto_now_balance'      => $uptoNowBalance,
+            'perHourTarget'         => $plan->perHourPcs,
+            'hourlyTargetAchieve'   => $actualSuccess,
+            'hourlyBalance'         => $plan->perHourPcs - $actualSuccess,
+            'totalCheckQty'         => $totalCheckQty,
+            'success_count'         => $checkData->success ?? 0,
+            'total_defect_count'    => $checkData->defect ?? 0,
+            'rework_count'          => $checkData->rework ?? 0,
+            'dhu'                   => $dhu,
+            'performance_efi'       => $performanceEFI,
+            'line_efi'              => $lineEfi,
+            'top_defect_code'       => $topDefectCode,
+            'defect_code_counts'    => $defectCodes
+        ]);
+    }
+
 
 
 }
