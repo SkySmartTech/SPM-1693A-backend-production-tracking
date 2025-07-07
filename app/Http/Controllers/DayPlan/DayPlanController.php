@@ -32,11 +32,12 @@ class DayPlanController extends Controller
         $request->validate([
             'lineNo' => 'required|string',
         ]);
-        
+
         $lineNo = $request->input('lineNo');
         $today = now()->toDateString();
 
         $dayPlan = DayPlan::where('lineNo', $request->input('lineNo'))
+                        ->whereDate('created_at', $today)
                         ->select('style', 'buyer', 'gg', 'smv', 'availableCader')
                         ->first();
 
