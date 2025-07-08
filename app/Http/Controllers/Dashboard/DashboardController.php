@@ -30,11 +30,11 @@ class DashboardController extends Controller
         $currentHourStart = $shiftStart->copy()->addHours($hoursSinceShiftStart);
         $currentHourEnd = $currentHourStart->copy()->addHour();
 
-        if ($now->lt($shiftStart) || $now->gt($shiftStart->copy()->addHours(9))) {
-            return response()->json([
-                'message' => 'Outside working hours. No dashboard data generated.'
-            ], 200);
-        }
+        // if ($now->lt($shiftStart) || $now->gt($shiftStart->copy()->addHours(9))) {
+        //     return response()->json([
+        //         'message' => 'Outside working hours. No dashboard data generated.'
+        //     ], 200);
+        // }
 
         $dayPlans = DB::table('day_plans')
                 ->whereDate('created_at', $today)
