@@ -88,7 +88,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('part-location/{id}/delete', [PartsLocationsController::class, 'destroy']);
 
     Route::post('day-plan-create', [DayPlanController::class, 'store']);
-    Route::get('all-day-plans', [DayPlanController::class, 'index']);
+    Route::get('all-day-plans', [DayPlanController::class, 'getLatestDayPlanSet']);
+    Route::get('day-plan/team-no', [DayPlanController::class, 'index']);
     Route::post('get-production-data', [DayPlanController::class, 'show']);
 
     Route::post('production-update', [ProductionUpdateController::class, 'store']);
