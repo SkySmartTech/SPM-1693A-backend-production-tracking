@@ -27,6 +27,13 @@ class DayPlanController extends Controller
         return response()->json($dayPlans, 200);
     }
 
+    public function getLatestDayPlanSet()
+    {
+        $dayPlans = $this->dayPlanInterface->getLatestUploaded();
+        return response()->json($dayPlans, 200);
+    }
+
+
     public function show(Request $request)
     {
         $request->validate([
@@ -36,10 +43,16 @@ class DayPlanController extends Controller
         $lineNo = $request->input('lineNo');
         $today = now()->toDateString();
 
-        $dayPlan = DayPlan::where('lineNo', $request->input('lineNo'))
+        $dayPlan = DayPlan::where('lineNo', $lineNo)
                         ->whereDate('created_at', $today)
                         ->select('style', 'buyer', 'gg', 'smv', 'availableCader')
-                        ->first();
+                        ->get();
+
+        $latestProductionData = ProductionUpdate::where('lineNo', $lineNo)
+                                            ->whereDate('created_at', $today)
+                                            ->select('buyer', 'gg', 'smv', 'presentCarder', 'style',  'color', 'sizeName',  'checkPoint')
+                                            ->latest()
+                                            ->get();
 
         $records = ProductionUpdate::where('lineNo', $lineNo)
                 ->whereDate('created_at', $today)
@@ -65,6 +78,7 @@ class DayPlanController extends Controller
 
         return response()->json([
             'dayPlan' => $dayPlan,
+            'latestProductionData' => $latestProductionData,
             'successCount' => $successCount,
             'reworkCount' => $reworkCount,
             'defectCount' => $defectCount,

@@ -6,5 +6,6 @@ use App\Repositories\Base\EloquentRepositoryInterface;
 
 interface DayPlanInterface extends EloquentRepositoryInterface {
     public function getLatestUploadedSet();
+    public function getLatestUploaded();
 
 }
