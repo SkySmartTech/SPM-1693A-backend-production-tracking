@@ -24,16 +24,6 @@ class DayPlanRepository extends BaseRepository implements DayPlanInterface
     }
 
 
-    public function getLatestUploadedSet()
-    {
-        $today = now()->toDateString();
-
-        $dayPlanLineNo = DayPlan::whereDate('created_at', $today)
-                        ->get();
-
-        return $dayPlanLineNo;
-    }
-
     public function getLatestUploaded(){
         $latestBatchTime = DayPlan::orderBy('created_at', 'desc')->first()?->created_at;
 
