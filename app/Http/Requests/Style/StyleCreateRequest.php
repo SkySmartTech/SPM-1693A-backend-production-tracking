@@ -22,8 +22,8 @@ class StyleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'styleNo'          => 'required|integer|unique:style_settings,styleNo',
-            'styleDescription' => 'required|string',
+            'styleNo'           => 'required|string|max:255|unique:style_settings,styleNo',
+            'styleDescription'  => 'required|string|max:255',
             'state'             => 'required|integer',
             'status'            => 'required|integer',
         ];

@@ -21,11 +21,6 @@ class DayPlanController extends Controller
         $this->dayPlanInterface = $dayPlanInterface;
     }
 
-    public function index()
-    {
-        $dayPlans = $this->dayPlanInterface->getLatestUploadedSet();
-        return response()->json($dayPlans, 200);
-    }
 
     public function getLatestDayPlanSet()
     {
